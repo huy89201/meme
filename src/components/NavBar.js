@@ -1,6 +1,8 @@
 import React from "react";
-import '../css/navbar.css'
-import {Link} from "react-router-dom"
+import "../css/navbar.css";
+import { Link } from "react-router-dom";
+import Search from "./Search";
+import AddIcon from "@material-ui/icons/Add";
 import {
   makeStyles,
   AppBar,
@@ -9,21 +11,41 @@ import {
   Slide,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
+  Button,
+  IconButton
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-container: {
-    display: 'flex',
-    justifyContent:'space-between',
-},
+  container: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   appbar: {
     backgroundColor: "#fff",
-    color: "black",
+    padding: "0.5rem 1rem",
   },
   list: {
-    display: "flex"
-  }
+    display: "flex",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  listText: {
+    color: "black",
+  },
+  AddIcon: {
+    fontSize: "3rem",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
+    },
+  },
+  Button: {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
 }));
 
 function HideOnScroll(props) {
@@ -46,19 +68,36 @@ function NavBar() {
           <Container className={classes.container}>
             <div className="navbar--left">
               <List className={classes.list}>
-                  <ListItem component={Link} to='/'>
-                        <ListItemText primary='MEME'/>
-                  </ListItem>
-                  <ListItem button={true}>
-                        <ListItemText primary='Danh mục'/>
-                  </ListItem>
-                  <ListItem component={Link} to='/'>
-                        <ListItemText primary='HOT'/>
-                  </ListItem>
+                <ListItem component={Link} to="/">
+                  <ListItemText className={classes.listText} primary="MEME" />
+                </ListItem>
+                <ListItem component={Link} to="/category">
+                  <ListItemText
+                    className={classes.listText}
+                    primary="CATEGORISE"
+                  />
+                </ListItem>
+                <ListItem component={Link} to="/">
+                  <ListItemText className={classes.listText} primary="HOT" />
+                </ListItem>
               </List>
             </div>
-            <div className="navbar--mid">hello</div>
-            <div className="navbar--right">hello</div>
+            <div className="navbar--mid">
+              <Search />
+            </div>
+            <div className="navbar--right">
+              <IconButton>
+                <Link to="/upload">
+                  <AddIcon className={classes.AddIcon} />
+                </Link>
+              </IconButton>
+              <Button className={classes.Button}>
+                <Link to="/upload">up load</Link>
+              </Button>
+              <Button className={classes.Button}>
+                <Link to="/login">log in</Link>
+              </Button>
+            </div>
           </Container>
         </AppBar>
       </HideOnScroll>
