@@ -6,12 +6,12 @@ import UpLoadPage from "./components/page/UpLoadPage";
 import CategoryPage from "./components/page/CategoryPage";
 import NavBar from "./components/NavBar";
 import MobileNavbar from "./components/MobileNavbar";
+
 function App() {
   return (
     <div className="App">
       <Router>
         <NavBar />
-
         <Switch>
           <Route path="/upload">
             <UpLoadPage />
@@ -26,8 +26,7 @@ function App() {
             <HomePage />
           </Route>
         </Switch>
-
-        <MobileNavbar/>
+        <MobileNavbar />
       </Router>
     </div>
   );

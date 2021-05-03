@@ -4,7 +4,7 @@ import {
 } from "./postsActions";
 
 const initState = {
-  posts: [],
+  postList: [],
   categoryPosts: [],
 };
 
@@ -13,7 +13,7 @@ export default function postsReducer(state = initState, actions) {
     case ACT_GET_NEWS_POST:
       return {
         ...state,
-        posts: actions.payload.posts,
+        postList: actions.payload.posts,
       };
     
     case ACT_GET_NEWS_POST_BY_CATEGORY:
@@ -25,5 +25,4 @@ export default function postsReducer(state = initState, actions) {
     default:
       return state;
   }
-  // return state;
 }

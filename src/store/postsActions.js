@@ -6,7 +6,7 @@ export const ACT_GET_NEWS_POST_BY_CATEGORY = 'ACT_GET_NEWS_POST_BY_CATEGORY'
 export function getNewPosts(posts){
     return {
         type: ACT_GET_NEWS_POST,
-        payload: posts
+        payload: {posts}
     }
 }
 
@@ -15,7 +15,6 @@ export function getNewPostsAsync(){
         try {
             const rest = await postsService.getNewPosts();
             const data = rest.data.posts;
-            // console.log(rest)
             dispatch(getNewPosts(data));
         } catch (error) {
             console.log(error);
