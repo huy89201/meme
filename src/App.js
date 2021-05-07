@@ -4,6 +4,8 @@ import HomePage from "./components/page/HomePage";
 import LoginPage from "./components/page/LoginPage";
 import UpLoadPage from "./components/page/UpLoadPage";
 import CategoryPage from "./components/page/CategoryPage";
+import PostDetailPage from "./components/page/PostDetailPage";
+import UserPage from "./components/page/UserPage";
 import NavBar from "./components/NavBar";
 import MobileNavbar from "./components/MobileNavbar";
 
@@ -21,6 +23,12 @@ function App() {
           </Route>
           <Route path="/category">
             <CategoryPage />
+          </Route>
+          <Route path="/userpageId=:UID">
+            <UserPage />
+          </Route>
+          <Route path="/post:PID">
+            <PostDetailPage />
           </Route>
           <Route path="/">
             <HomePage />

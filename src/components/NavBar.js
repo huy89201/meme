@@ -74,7 +74,7 @@ function NavBar() {
                 <ListItem component={Link} to="/category">
                   <ListItemText
                     className={classes.listText}
-                    primary="CATEGORISE"
+                    primary="CATEGORY"
                   />
                 </ListItem>
                 <ListItem component={Link} to="/">

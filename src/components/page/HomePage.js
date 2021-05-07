@@ -19,7 +19,7 @@ function HomePage() {
 
   useEffect(() => {
     dispatch(getNewPostsAsync());
-    // react-hooks/exhaustive-deps
+    // eslint-disable-next-line
   }, []);
 
   return (
