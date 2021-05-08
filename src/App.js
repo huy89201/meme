@@ -27,7 +27,7 @@ function App() {
           <Route path="/userpageId=:UID">
             <UserPage />
           </Route>
-          <Route path="/post:PID">
+          <Route path="/postPostId=:PID">
             <PostDetailPage />
           </Route>
           <Route path="/">

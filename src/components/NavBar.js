@@ -2,7 +2,8 @@ import React from "react";
 import "../css/navbar.css";
 import { Link } from "react-router-dom";
 import Search from "./Search";
-import AddIcon from "@material-ui/icons/Add";
+import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
+
 import {
   makeStyles,
   AppBar,
@@ -88,7 +89,7 @@ function NavBar() {
             <div className="navbar--right">
               <IconButton>
                 <Link to="/upload">
-                  <AddIcon className={classes.AddIcon} />
+                  <AddBoxOutlinedIcon className={classes.AddIcon} />
                 </Link>
               </IconButton>
               <Button className={classes.Button}>

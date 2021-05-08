@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { getUserByIdAsync } from "../store/userActions";
-import { getCommentsByPostIdAsync } from "../store/commentsActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import clsx from "clsx";
 import PostComments from "./PostComments";
+import CommentInput from "./CommentInput";
 import {
   makeStyles,
   Grow,
@@ -49,13 +49,12 @@ const useStyles = makeStyles((theme) => ({
 function PostItem({ item }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.user);
-  const postComments = useSelector((state) => state.comments.comments);
+  const user = useSelector((state) => !!state.user.user);
+  const currentUser = useSelector((state) => state.user.currentUser);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     dispatch(getUserByIdAsync(item.USERID));
-    dispatch(getCommentsByPostIdAsync(item.PID));
     // eslint-disable-next-line
   }, []);
 
@@ -78,7 +77,15 @@ function PostItem({ item }) {
         <CardContent>
           <Typography component="p">{item.post_content}</Typography>
         </CardContent>
-        <CardMedia image={item.url_image} className={classes.CardMedia} />
+        <CardMedia
+          image={
+            item.url_image ||
+            "https://i.pinimg.com/564x/5e/47/a3/5e47a3c6c1f85255c9e32f294a3dd173.jpg"
+          }
+          className={classes.CardMedia}
+          component={Link}
+          to={`postPostId=${item.PID}`}
+        />
         <CardActions disableSpacing>
           <ChatBubbleIcon className={classes.ChatBubbleIcon} />
           <Typography className={classes.itemStatus}>{item.status}</Typography>
@@ -94,16 +101,15 @@ function PostItem({ item }) {
             <ExpandMoreIcon fontSize="large" />
           </IconButton>
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {postComments.length ? (
-            postComments.map((comment) => (
-              <PostComments key={comment.CID} comment={comment} />
-            ))
+        <CardContent>
+          {currentUser ? (
+            <CommentInput />
           ) : (
-            <CardContent>
-              <Typography>No comments</Typography>
-            </CardContent>
+            <Typography>Login to comment</Typography>
           )}
+        </CardContent>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <PostComments PID={item.PID} />
         </Collapse>
       </Card>
     </Grow>

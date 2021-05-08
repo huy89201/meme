@@ -7,14 +7,15 @@ import PostItem from '../PostItem'
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: "6rem",
+    marginBottom: "4rem",
     display: "flex",
     flexWrap: "wrap",
   },
 }));
 
 function HomePage() {
-  const classes = useStyles();
   const dispatch = useDispatch();
+  const classes = useStyles();
   const postList = useSelector(state => state.posts.postList)
 
   useEffect(() => {
@@ -29,9 +30,9 @@ function HomePage() {
           <Grid item sm={8} xs={12}>
             {postList.map(item => <PostItem key={item.PID} item={item}/>)}
           </Grid>
-          <Grid item sm={4} xs={12}>
-            hello
-          </Grid>
+          {/* <Grid item sm={4} xs={12}>
+            hello 
+          </Grid> */}
         </Grid>
       </Container>
     </div>

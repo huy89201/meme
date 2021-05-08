@@ -1,46 +1,26 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import {
-  makeStyles,
-  CardHeader,
-  Avatar,
-  CardContent,
-  Typography,
-  Grid,
-} from "@material-ui/core";
+import React, { useEffect } from "react";
+import CommentItem from "./CommentItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getCommentsByPostIdAsync } from "../store/commentsActions";
+import { makeStyles, CardContent } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  comment: {
-    display: "flex",
-  },
-  girdItem: {
-    backgroundColor: 'whitesmoke',
-    borderRadius: '1rem'
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
-function PostComments({ comment }) {
+function PostComments({ PID }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const postComments = useSelector((state) => state.comments.comments);
+
+  useEffect(() => {
+    dispatch(getCommentsByPostIdAsync(PID));
+    // eslint-disable-next-line
+  }, []);
+
   return (
-    <CardContent className={classes.comment}>
-      <Grid container>
-        <Grid item xs={4}>
-          <CardHeader
-            avatar={
-              <Link to={`/userpageId=${comment.USERID}`}>
-              <Avatar aria-label="recipe" src={comment.profilepicture} />
-            </Link>
-            }
-            title={<Link to={`/userpageId=${comment.USERID}`}>{comment.fullname}</Link>}
-            subheader={comment.time_added}
-          />
-        </Grid>
-        <Grid item xs={8} className={classes.girdItem}>
-          <CardContent>
-            <Typography>{comment.comment}</Typography>
-          </CardContent>
-        </Grid>
-      </Grid>
+    <CardContent>
+      {postComments.map((comment) => (
+        <CommentItem key={comment.CID} comment={comment} />
+      ))}
     </CardContent>
   );
 }
