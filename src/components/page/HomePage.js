@@ -17,6 +17,9 @@ function HomePage() {
   const dispatch = useDispatch();
   const classes = useStyles();
   const postList = useSelector(state => state.posts.postList)
+  // const currentUser = useSelector(state => state.user.currentUser);
+
+  // console.log(currentUser)
 
   useEffect(() => {
     dispatch(getNewPostsAsync());

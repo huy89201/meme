@@ -1,6 +1,7 @@
-import React from "react";
 import "../css/navbar.css";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Search from "./Search";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 
@@ -14,7 +15,7 @@ import {
   ListItem,
   ListItemText,
   Button,
-  IconButton
+  IconButton,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +62,7 @@ function HideOnScroll(props) {
 
 function NavBar() {
   const classes = useStyles();
+  const currentUser = useSelector((state) => state.user.currentUser);
 
   return (
     <div className="navbar--wrapper">
@@ -95,9 +97,15 @@ function NavBar() {
               <Button className={classes.Button}>
                 <Link to="/upload">up load</Link>
               </Button>
-              <Button className={classes.Button}>
-                <Link to="/login">log in</Link>
-              </Button>
+              {currentUser.isLogin ? (
+                <Button>
+                  <Link to={`/userpageId=${currentUser.id}`}>{currentUser.userData.fullname}</Link>
+                </Button>
+              ) : (
+                <Button className={classes.Button}>
+                  <Link to="/login">log in</Link>
+                </Button>
+              )}
             </div>
           </Container>
         </AppBar>

@@ -88,13 +88,12 @@ function PostItem({ item }) {
         />
         <CardActions disableSpacing>
           <ChatBubbleIcon className={classes.ChatBubbleIcon} />
-          <Typography className={classes.itemStatus}>{item.status}</Typography>
+          <Typography className={classes.itemStatus}>{item.count}</Typography>
           <IconButton
             className={clsx(classes.expand, {
               [classes.expandOpen]: expanded,
             })}
             onClick={handleExpandClick}
-            // if (!item) return;
             aria-expanded={expanded}
             aria-label="show more"
           >

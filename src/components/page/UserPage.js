@@ -1,9 +1,9 @@
 import React from 'react'
-import {useParams} from 'react-router-dom'
+// import {useParams} from 'react-router-dom'
 function UserPage() {
-    const params = useParams();
+    // const params = useParams();
 
-    const userId = params.UID;
+    // const userId = params.UID;
 
     return (
         <div>

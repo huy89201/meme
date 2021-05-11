@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { loginAsync } from "../../store/userActions";
+import { registerAsync } from "../../store/userActions";
 import {
   Container,
   makeStyles,
@@ -27,16 +27,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "2rem",
     margin: "0 auto",
   },
-  SubmitButton: {
-    backgroundColor: "#ec5990",
-    "&:hover": {
-      backgroundColor: "#ec5990",
-    },
-    marginRight: "1rem",
-  },
-  registerLink: {
-    color: "#ffff",
-  },
   title: {
     padding: "0.5rem 1rem",
     fontWeight: "bold",
@@ -55,19 +45,29 @@ const useStyles = makeStyles((theme) => ({
       outline: "none",
     },
   },
-  label: {
-    paddingTop: "0.5rem",
+  SubmitButton: {
+    backgroundColor: "#ec5990",
+    "&:hover": {
+      backgroundColor: "#ec5990",
+    },
+    marginRight: "1rem",
+  },
+  loginLink: {
+    color: "#ffff",
   },
 }));
 
-function LoginPage() {
+function RegisterPage() {
   const classes = useStyles();
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+
   const [formData, setFormData] = useState({
-    email: "huy89201@gmail.com",
-    password: "123456",
+    email: "",
+    fullname: "",
+    password: "",
+    repassword: "",
   });
 
   function handlevalueChange(evt) {
@@ -80,16 +80,21 @@ function LoginPage() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    
-    if (!formData.email || !formData.password) return;
+
+    if (
+      !formData.email ||
+      !formData.fullname ||
+      !formData.password ||
+      !formData.repassword
+    )
+      return;
 
     if (isLoading) return;
 
     setIsLoading(true);
-    dispatch(loginAsync(formData))
-      .then(res => {
+    dispatch(registerAsync(formData)).then((res) => {
       if (res.ok) {
-        history.push('/');
+        history.push('/login');
       } else {
         alert(res.error);
       }
@@ -98,31 +103,51 @@ function LoginPage() {
 
     setFormData({
       email: "",
+      fullname: "",
       password: "",
+      repassword: "",
     });
+
   }
 
   return (
-    <div className="login--page--wrapper">
+    <div className="register--page--wrapper">
       <Container className={classes.container}>
         <Paper elevation={3} className={classes.paper}>
           <form onSubmit={handleSubmit}>
-            <Typography className={classes.title}>Login</Typography>
+            <Typography className={classes.title}>Register</Typography>
             <InputLabel className={classes.label}>Email</InputLabel>
             <input
               className={classes.input}
-              key_value="email"
               placeholder="Email or phone number"
               value={formData.email}
+              key_value="email"
+              onChange={handlevalueChange}
+            />
+            <InputLabel className={classes.label}>Fullname</InputLabel>
+            <input
+              className={classes.input}
+              placeholder="your name"
+              value={formData.fullname}
+              key_value="fullname"
               onChange={handlevalueChange}
             />
             <InputLabel className={classes.label}>Password</InputLabel>
             <input
               className={classes.input}
               placeholder="Password"
-              key_value="password"
-              type="password"
               value={formData.password}
+              key_value="password"
+              onChange={handlevalueChange}
+              type="password"
+            />
+            <InputLabel className={classes.label}>Repassword</InputLabel>
+            <input
+              className={classes.input}
+              placeholder="write your password again"
+              type="password"
+              value={formData.repassword}
+              key_value="repassword"
               onChange={handlevalueChange}
             />
             <Button
@@ -134,8 +159,8 @@ function LoginPage() {
               submit
             </Button>
             <Button color="primary" variant="contained">
-              <Link to="/register" className={classes.registerLink}>
-                register
+              <Link to="/login" className={classes.loginLink}>
+                login
               </Link>
             </Button>
           </form>
@@ -145,4 +170,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default RegisterPage;
