@@ -8,7 +8,6 @@ import {
 
 const initState = {
   currentUser: {
-    isLogin: false,
     token: "",
     id: "",
     userData: {},
@@ -28,7 +27,6 @@ export default function userRecuder(state = initState, actions) {
         ...state,
         currentUser: {
           ...state.currentUser,
-          isLogin: true,
           userData: actions.payload.user,
         },
       };

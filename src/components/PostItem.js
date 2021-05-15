@@ -6,7 +6,6 @@ import { getUserByIdAsync } from "../store/userActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import clsx from "clsx";
 import PostComments from "./PostComments";
-import CommentInput from "./CommentInput";
 import {
   makeStyles,
   Grow,
@@ -50,13 +49,15 @@ function PostItem({ item }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = useSelector((state) => !!state.user.user);
-  const currentUser = useSelector((state) => state.user.currentUser);
+  // const currentUser = useSelector((state) => state.user.currentUser);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     dispatch(getUserByIdAsync(item.USERID));
     // eslint-disable-next-line
   }, []);
+
+  if (!item) return;
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -100,13 +101,6 @@ function PostItem({ item }) {
             <ExpandMoreIcon fontSize="large" />
           </IconButton>
         </CardActions>
-        <CardContent>
-          {currentUser ? (
-            <CommentInput />
-          ) : (
-            <Typography>Login to comment</Typography>
-          )}
-        </CardContent>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <PostComments PID={item.PID} />
         </Collapse>

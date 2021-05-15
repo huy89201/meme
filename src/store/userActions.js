@@ -29,7 +29,7 @@ export function getUserByIdAsync(userId) {
 export function registerAsync({ email, fullname, password, repassword }) {
   return async () => {
     try {
-      const res = await userService.register({
+      await userService.register({
         email,
         fullname,
         password,
@@ -93,6 +93,7 @@ export function loginAsync({ email, password }) {
 
       localStorage.setItem("token", token);
       localStorage.setItem("id", userId);
+
       dispatch(getCurrentUserAsync(userId));
       dispatch(setId(userId));
       dispatch(setToken(token));

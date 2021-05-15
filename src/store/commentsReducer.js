@@ -8,8 +8,8 @@ export default function CommentsReducer (state = initState, actions) {
   switch (actions.type) {
     case ACT_GET_COMMENT_BY_POST_ID:
       return {
-          ...state,
-          comments: actions.payload.comments
+        ...state.comments,
+        comments: actions.payload.comments
       }
 
     default: return state;

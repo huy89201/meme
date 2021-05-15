@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
-
-import { makeStyles, Input, IconButton} from "@material-ui/core";
-
+import { makeStyles, Input, IconButton } from "@material-ui/core";
+import {
+  postNewComment,
+  getCommentsByPostIdAsync,
+} from "../store/commentsActions";
 const useStyles = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -18,17 +21,32 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CommentInput() {
+function CommentInput({ PID }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  function handleInput(evt) {
+    setInputValue(evt.target.value);
+  }
 
   function handleSubmit(evt) {
     evt.preventDefault();
 
-    // console.log("run");
-  }
+    if (!inputValue) return;
+    if (isLoading) return;
 
-  function handleInput(evt) {
-    // console.log(evt.target.value);
+    setIsLoading(true);
+
+    dispatch(postNewComment(inputValue, PID)).then((res) => {
+      setIsLoading(false);
+      if(res.ok){
+        setInputValue('');
+        dispatch(getCommentsByPostIdAsync(PID));
+      }
+    });
+
   }
 
   return (
@@ -39,6 +57,7 @@ function CommentInput() {
         disableUnderline={true}
         onChange={handleInput}
         className={classes.input}
+        value={inputValue}
       />
 
       <IconButton onClick={handleSubmit}>
@@ -49,4 +68,3 @@ function CommentInput() {
 }
 
 export default CommentInput;
-

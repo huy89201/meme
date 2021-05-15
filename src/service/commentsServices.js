@@ -7,6 +7,12 @@ export const commentsService = {
                 postid: postId
             }
         })
+    },
+    postNewComment(comment,postid){
+        return api.post('/comment/add_new.php',{
+            comment: comment,
+            postid: postid
+        })
     }
 }
 

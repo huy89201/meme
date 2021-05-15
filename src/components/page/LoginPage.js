@@ -91,7 +91,8 @@ function LoginPage() {
       if (res.ok) {
         history.push('/');
       } else {
-        alert(res.error);
+        // alert(res.error);
+        console.log(res.error);
       }
       setIsLoading(false);
     });

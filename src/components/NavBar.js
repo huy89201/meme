@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Search from "./Search";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
+import Avatar from '@material-ui/core/Avatar';
 
 import {
   makeStyles,
@@ -48,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  Avatar: {
+    marginRight : "0.5rem"
+  }
 }));
 
 function HideOnScroll(props) {
@@ -97,8 +101,9 @@ function NavBar() {
               <Button className={classes.Button}>
                 <Link to="/upload">up load</Link>
               </Button>
-              {currentUser.isLogin ? (
-                <Button>
+              {currentUser.token && currentUser.userData ? (
+                <Button className={classes.Button}>
+                  <Avatar alt="user avatar" src={currentUser.userData.profilepicture} className={classes.Avatar} />
                   <Link to={`/userpageId=${currentUser.id}`}>{currentUser.userData.fullname}</Link>
                 </Button>
               ) : (

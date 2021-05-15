@@ -21,3 +21,17 @@ export function getCommentsByPostIdAsync(postId){
         }
     }
 }
+
+export function postNewComment(comment,postId){
+    return async (dispatch) => {
+        try {
+            await commentsService.postNewComment(comment,postId);
+
+            return {
+                ok: true,
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
