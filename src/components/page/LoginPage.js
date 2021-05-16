@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginAsync } from "../../store/userActions";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Container,
   makeStyles,
@@ -58,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
   label: {
     paddingTop: "0.5rem",
   },
+  error: {
+    padding: "0.5rem"
+  }
 }));
 
 function LoginPage() {
@@ -65,72 +71,68 @@ function LoginPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "huy89201@gmail.com",
-    password: "123456",
+  const isLogin = useSelector((state) => state.user.currentUser.token)
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .required("email is required")
+      .email("email is not same pattern"),
+    password: yup
+      .string()
+      .required("password is required")
+      .min(6, "password has least 6 characters"),
   });
 
-  function handlevalueChange(evt) {
-    const key = evt.target.getAttribute("key_value");
-    setFormData({
-      ...formData,
-      [key]: evt.target.value,
-    });
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
+  if(isLogin) history.push('./');
+
+  const onSubmit = async (data) => {
+    if(isLoading) return;
     
-    if (!formData.email || !formData.password) return;
-
-    if (isLoading) return;
-
     setIsLoading(true);
-    dispatch(loginAsync(formData))
-      .then(res => {
-      if (res.ok) {
-        history.push('/');
-      } else {
-        // alert(res.error);
-        console.log(res.error);
-      }
-      setIsLoading(false);
-    });
 
-    setFormData({
-      email: "",
-      password: "",
+    await dispatch(loginAsync(data)).then((res) => {
+      if (res.ok) history.push('./');
+
+      setIsLoading(true);
     });
-  }
+  };
 
   return (
     <div className="login--page--wrapper">
       <Container className={classes.container}>
         <Paper elevation={3} className={classes.paper}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Typography className={classes.title}>Login</Typography>
             <InputLabel className={classes.label}>Email</InputLabel>
             <input
               className={classes.input}
-              key_value="email"
               placeholder="Email or phone number"
-              value={formData.email}
-              onChange={handlevalueChange}
+              type="email"
+              {...register("email")}
             />
+            {errors.email?.message && <p className={classes.error}>{errors.email?.message}</p>}
             <InputLabel className={classes.label}>Password</InputLabel>
             <input
               className={classes.input}
               placeholder="Password"
-              key_value="password"
               type="password"
-              value={formData.password}
-              onChange={handlevalueChange}
+              {...register("password")}
             />
+            {errors.password?.message && <p className={classes.error}>{errors.password?.message}</p>}
+
             <Button
               color="primary"
               variant="contained"
               className={classes.SubmitButton}
-              onClick={handleSubmit}
+              onClick={handleSubmit(onSubmit)}
             >
               submit
             </Button>

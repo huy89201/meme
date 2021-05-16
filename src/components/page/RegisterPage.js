@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { registerAsync } from "../../store/userActions";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 import {
   Container,
   makeStyles,
@@ -55,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
   loginLink: {
     color: "#ffff",
   },
+  error: {
+    padding: "0.5rem"
+  }
 }));
 
 function RegisterPage() {
@@ -63,98 +69,89 @@ function RegisterPage() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    fullname: "",
-    password: "",
-    repassword: "",
+  const schema = yup.object().shape({
+    email: yup
+      .string()
+      .required("email is required")
+      .email("email is not same pattern"),
+    fullname: yup
+      .string()
+      .required("fullname is required")
+      .max(20, "max characters is 20"),
+    password: yup
+      .string()
+      .required("password is required")
+      .min(6, "password has least 6 characters"),
+    repassword: yup
+      .string()
+      .required("confirm password is required")
+      .min(6, "password has least 6 characters")
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
 
-  function handlevalueChange(evt) {
-    const key = evt.target.getAttribute("key_value");
-    setFormData({
-      ...formData,
-      [key]: evt.target.value,
-    });
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
-
-    if (
-      !formData.email ||
-      !formData.fullname ||
-      !formData.password ||
-      !formData.repassword
-    )
-      return;
-
-    if (isLoading) return;
+  const onSubmit = async (data) => {
+    if(isLoading) return;
 
     setIsLoading(true);
-    dispatch(registerAsync(formData)).then((res) => {
-      if (res.ok) {
-        history.push('/login');
-      } else {
-        alert(res.error);
-      }
+
+    await dispatch(registerAsync(data)).then(res => {
+      if(res.ok) history.push('/login');
       setIsLoading(false);
-    });
-
-    setFormData({
-      email: "",
-      fullname: "",
-      password: "",
-      repassword: "",
-    });
-
-  }
+    })
+  };
 
   return (
     <div className="register--page--wrapper">
       <Container className={classes.container}>
         <Paper elevation={3} className={classes.paper}>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Typography className={classes.title}>Register</Typography>
             <InputLabel className={classes.label}>Email</InputLabel>
             <input
               className={classes.input}
-              placeholder="Email or phone number"
-              value={formData.email}
-              key_value="email"
-              onChange={handlevalueChange}
+              placeholder="Email or address"
+              {...register("email")}
             />
+            {errors.email?.message && <p className={classes.error}>{errors.email?.message}</p>}
             <InputLabel className={classes.label}>Fullname</InputLabel>
             <input
               className={classes.input}
               placeholder="your name"
-              value={formData.fullname}
-              key_value="fullname"
-              onChange={handlevalueChange}
+              {...register("fullname")}
             />
+            {errors.fullname?.message && <p className={classes.error}>{errors.fullname?.message}</p>}
+
             <InputLabel className={classes.label}>Password</InputLabel>
             <input
               className={classes.input}
               placeholder="Password"
-              value={formData.password}
-              key_value="password"
-              onChange={handlevalueChange}
               type="password"
+              {...register("password")}
             />
-            <InputLabel className={classes.label}>Repassword</InputLabel>
+            {errors.password?.message && <p className={classes.error}>{errors.password?.message}</p>}
+            
+            <InputLabel className={classes.label}>Confirm password</InputLabel>
             <input
               className={classes.input}
-              placeholder="write your password again"
+              placeholder="confirm password "
               type="password"
-              value={formData.repassword}
-              key_value="repassword"
-              onChange={handlevalueChange}
+              {...register("repassword")}
             />
+            {errors.repassword?.message && <p className={classes.error}>{errors.repassword?.message}</p>}
+
             <Button
               color="primary"
               variant="contained"
               className={classes.SubmitButton}
-              onClick={handleSubmit}
+              onClick={handleSubmit(onSubmit)}
             >
               submit
             </Button>
