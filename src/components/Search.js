@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -14,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "white",
     },
     color: "black",
-    border: '1px solid',
-    borderRadius: '1.5rem',
+    border: "1px solid",
+    borderRadius: "1.5rem",
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
@@ -45,11 +46,10 @@ const useStyles = makeStyles((theme) => ({
       },
     },
     [theme.breakpoints.down("xs")]: {
-      padding: theme.spacing(1)
+      padding: theme.spacing(1),
     },
-    height: '2rem',
+    height: "2rem",
     boxShadow: "box-shadow: 2px 1px 10px 5px rgba(184, 182, 182, 0.4)",
-
   },
   fontSize: {
     fontSize: "30px",
@@ -58,9 +58,28 @@ const useStyles = makeStyles((theme) => ({
 
 function Search() {
   const classes = useStyles();
+  const history = useHistory();
+  const [inputValue, setInputValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleInput = (evt) => setInputValue(evt.target.value);
+
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+
+    if (!inputValue) return;
+    if (isLoading) return;
+
+    setIsLoading(true);
+
+    history.push(`/search--querySting=${inputValue}`);
+
+    setInputValue("");
+    setIsLoading(false);
+  };
 
   return (
-    <div className={classes.search}>
+    <form className={classes.search} onSubmit={handleSubmit}>
       <div className={classes.searchIcon}>
         <SearchIcon className={classes.fontSize} />
       </div>
@@ -71,8 +90,10 @@ function Search() {
           input: classes.inputInput,
         }}
         inputProps={{ "aria-label": "search" }}
+        value={inputValue}
+        onChange={handleInput}
       />
-    </div>
+    </form>
   );
 }
 

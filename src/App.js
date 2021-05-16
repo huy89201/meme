@@ -9,6 +9,7 @@ import CategoryPage from "./components/page/CategoryPage";
 import PostDetailPage from "./components/page/PostDetailPage";
 import UserPage from "./components/page/UserPage";
 import RegisterPage from "./components/page/RegisterPage";
+import SearchPage from "./components/page/SearchPage";
 import NavBar from "./components/NavBar";
 import MobileNavbar from "./components/MobileNavbar";
 import { setToken, getCurrentUserAsync, setId } from "./store/userActions";
@@ -21,7 +22,6 @@ function App() {
   useEffect(() => {
     dispatch(getCurrentUserAsync(userId));
     dispatch(setToken(token));
-    console.log('app', userId);
     dispatch(setId(userId));
     // eslint-disable-next-line
   }, []);
@@ -48,6 +48,9 @@ function App() {
           </Route>
           <Route path="/register">
             <RegisterPage />
+          </Route>
+          <Route path="/search--querySting=:querySting">
+            <SearchPage />
           </Route>
           <Route path="/">
             <HomePage />

@@ -25,6 +25,13 @@ const postsService = {
       },
     });
   },
+  getPostsByQueryString(queryString){
+    return api.get('/post/search.php',{
+      params: {
+        query: queryString
+      }
+    })
+  }
 };
 
 export default postsService;

@@ -2,16 +2,17 @@ import {
   ACT_GET_NEWS_POST,
   ACT_GET_NEWS_POST_BY_CATEGORY,
   ACT_GET_CURRENT_USER_POSTS,
+  ACT_GET_NEWS_POST_BY_QUERY_STRING
 } from "./postsActions";
 
 const initState = {
-  categoryPosts: [],
   currentUserPosts: [],
   postPaging: {
     postList: [],
     pagesize: 3,
     curPage: 1,
   },
+  SearchingPosts: [],
 };
 
 export default function postsReducer(state = initState, actions) {
@@ -39,6 +40,11 @@ export default function postsReducer(state = initState, actions) {
         ...state,
         currentUserPosts: actions.payload.posts,
       };
+    case ACT_GET_NEWS_POST_BY_QUERY_STRING :
+      return {
+        ...state,
+        SearchingPosts: actions.payload.posts
+      }
     default:
       return state;
   }

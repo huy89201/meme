@@ -3,6 +3,7 @@ import postsService from "../service/postsService";
 export const ACT_GET_NEWS_POST = "ACT_GET_NEWS_POST";
 export const ACT_GET_NEWS_POST_BY_CATEGORY = "ACT_GET_NEWS_POST_BY_CATEGORY";
 export const ACT_GET_CURRENT_USER_POSTS = "ACT_GET_CURRENT_USER_POSTS";
+export const ACT_GET_NEWS_POST_BY_QUERY_STRING = "ACT_GET_NEWS_POST_BY_QUERY";
 
 export function getNewPosts({ posts, pagesize, currPage }) {
   return {
@@ -78,3 +79,24 @@ export function getPostsByUserIdAsync(userId) {
     }
   };
 }
+
+
+export function getPostsByQueryString(posts) {
+  return {
+    type: ACT_GET_NEWS_POST_BY_QUERY_STRING,
+    payload: {posts}
+  }
+}
+
+export function getPostsByQueryStringAsync(queryString){
+    return async (dispatch) => {
+      try { 
+        const res = await postsService.getPostsByQueryString(queryString);
+        dispatch(getPostsByQueryString(res.data.posts));
+
+        return { ok : true}
+      } catch (error) {
+
+      }
+    }
+ }
