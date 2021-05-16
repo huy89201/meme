@@ -39,10 +39,9 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    // bug: argument is 0
     dispatch(getPostsByUserIdAsync(Number(currentUser.id)));
     // eslint-disable-next-line
-  }, []);
+  }, [currentUser.id]);
 
   const fetchMoreData = async () => {
     if (isFetching) return;

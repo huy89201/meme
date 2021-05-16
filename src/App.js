@@ -21,6 +21,7 @@ function App() {
   useEffect(() => {
     dispatch(getCurrentUserAsync(userId));
     dispatch(setToken(token));
+    console.log('app', userId);
     dispatch(setId(userId));
     // eslint-disable-next-line
   }, []);
