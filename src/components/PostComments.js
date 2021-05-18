@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostComments({ PID }) {
+function PostComments({ PID, isShowComentInput }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -31,23 +31,26 @@ function PostComments({ PID }) {
   const currentComments = postComments.slice(0, lastComment);
 
   useEffect(() => {
-    dispatch(getCommentsByPostIdAsync(PID));
+    dispatch(getCommentsByPostIdAsync(Number(PID)));
     // eslint-disable-next-line
-  }, []);
+  }, [PID]);
+
+
+
 
   const handleLoadMore = () => {
     if (lastComment > totalComments) return;
-
+    
     setLastComment(lastComment + 3);
   };
 
   return (
     <CardContent>
-      {currentUser.token ? (
+      {isShowComentInput && (currentUser.token ? (
         <CommentInput PID={PID} />
       ) : (
         <Typography>Login to comment</Typography>
-      )}
+      ))}
       {currentComments.map((comment) => (
         <CommentItem key={comment.CID} comment={comment} />
       ))}
@@ -56,9 +59,8 @@ function PostComments({ PID }) {
           <ExpandMoreIcon className={classes.icon} />
         </IconButton>
       ) : (
-        <Typography>No comments yet</Typography> 
-      )
-    }
+        <Typography>No comments yet</Typography>
+      )}
     </CardContent>
   );
 }

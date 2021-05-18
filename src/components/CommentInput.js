@@ -6,6 +6,7 @@ import {
   postNewComment,
   getCommentsByPostIdAsync,
 } from "../store/commentsActions";
+
 const useStyles = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -43,11 +44,13 @@ function CommentInput({ PID }) {
       setIsLoading(false);
       if(res.ok){
         setInputValue('');
-        dispatch(getCommentsByPostIdAsync(PID));
+        dispatch(getCommentsByPostIdAsync(Number(PID)));
       }
     });
 
   }
+
+  
 
   return (
     <form onSubmit={handleSubmit} className={classes.form}>

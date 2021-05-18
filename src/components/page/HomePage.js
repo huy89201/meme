@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getNewPostsAsync,
   getPostsByUserIdAsync,
+  resetCurrentPage
 } from "../../store/postsActions";
 import { Container, makeStyles, Grid, Typography } from "@material-ui/core";
 import PostItem from "../PostItem";
@@ -36,6 +37,10 @@ function HomePage() {
     if (postList.length) return;
     dispatch(getNewPostsAsync());
     // eslint-disable-next-line
+    
+    return  () =>{
+      dispatch(resetCurrentPage());  
+    }
   }, []);
 
   useEffect(() => {
@@ -52,6 +57,7 @@ function HomePage() {
       res.ok && setIsFetching(false);
     });
   };
+
 
   return (
     <div className="home--page--wrapper">
@@ -73,7 +79,7 @@ function HomePage() {
           <Grid item sm={5} xs={12} className={classes.displayNone}>
             {currentUserPosts && currentUserPosts.length ? (
               currentUserPosts.map((item) => (
-                <PostItem key={item.PID} item={item} />
+                <PostItem key={item.PID} item={item} isShowComents={true}/>
               ))
             ) : (
               <Typography>ban chua co bai viet nao</Typography>

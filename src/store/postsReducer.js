@@ -2,7 +2,9 @@ import {
   ACT_GET_NEWS_POST,
   ACT_GET_NEWS_POST_BY_CATEGORY,
   ACT_GET_CURRENT_USER_POSTS,
-  ACT_GET_NEWS_POST_BY_QUERY_STRING
+  ACT_GET_NEWS_POST_BY_QUERY_STRING,
+  ACT_GET_NEWS_POST_BY_PID,
+  ACT_RESET_CURRENT_PAGE
 } from "./postsActions";
 
 const initState = {
@@ -13,6 +15,10 @@ const initState = {
     curPage: 1,
   },
   SearchingPosts: [],
+  postDetail: {
+    post: {},
+    categories: [],
+  }
 };
 
 export default function postsReducer(state = initState, actions) {
@@ -45,6 +51,23 @@ export default function postsReducer(state = initState, actions) {
         ...state,
         SearchingPosts: actions.payload.posts
       }
+    case ACT_GET_NEWS_POST_BY_PID :
+      return {
+        ...state,
+        postDetail: {
+          post: actions.payload.post,
+          categories: actions.payload.categories,
+        }
+      }
+    case ACT_RESET_CURRENT_PAGE:
+      return {
+        ...state,
+        postPaging: {
+            ...state.postPaging,
+          curPage: 2
+        },
+      }
+
     default:
       return state;
   }

@@ -31,6 +31,13 @@ const postsService = {
         query: queryString
       }
     })
+  },
+  getPostByPostId(postId) {
+    return api.get("/post/post.php", {
+      params: {
+        postid: postId
+      }
+    })
   }
 };
 

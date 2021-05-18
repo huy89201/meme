@@ -16,6 +16,7 @@ export function getCommentsByPostIdAsync(postId){
             const comments = res.data.comments;
             
             dispatch(getCommentsByPostId(comments));
+            return {ok : true};
         } catch (error) {
             console.log(error);
         }

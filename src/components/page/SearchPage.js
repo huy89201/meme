@@ -16,9 +16,12 @@ function SearchPage() {
   const dispatch = useDispatch();
   const params = useParams();
   const posts = useSelector((state) => state.posts.SearchingPosts);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(getPostsByQueryStringAsync(params.querySting));
+    setIsLoading(true)
+    dispatch(getPostsByQueryStringAsync(params.querySting)).then((res) => res.ok && setIsLoading(false));
+    // eslint-disable-next-line
   }, [params.querySting]);
 
   return (
@@ -26,7 +29,7 @@ function SearchPage() {
       <Container className={classes.container}>
         <Grid container>
           <Grid item sm={12}>
-              <h1>co {posts.length} ket qua cho "{params.querySting}" </h1>
+             {isLoading || <h1>co {posts.length} ket qua cho "{params.querySting}" </h1>}
             {posts.map((item) => (
               <PostItem key={item.PID} item={item} />
             ))}

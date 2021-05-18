@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { Link } from "react-router-dom";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { getUserByIdAsync } from "../store/userActions";
@@ -48,8 +48,6 @@ const useStyles = makeStyles((theme) => ({
 function PostItem({ item }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = useSelector((state) => !!state.user.user);
-  // const currentUser = useSelector((state) => state.user.currentUser);
   const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
@@ -69,7 +67,7 @@ function PostItem({ item }) {
         <CardHeader
           avatar={
             <Link to={`/userpageId=${item.USERID}`}>
-              <Avatar aria-label="recipe" src={user.profilepicture} />
+              <Avatar aria-label="recipe" src={item.profilepicture} />
             </Link>
           }
           title={<Link to={`/userpageId=${item.USERID}`}>{item.fullname}</Link>}
@@ -102,7 +100,7 @@ function PostItem({ item }) {
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PostComments PID={item.PID} />
+          <PostComments PID={item.PID} isShowComentInput={true}/>
         </Collapse>
       </Card>
     </Grow>

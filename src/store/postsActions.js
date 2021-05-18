@@ -4,6 +4,9 @@ export const ACT_GET_NEWS_POST = "ACT_GET_NEWS_POST";
 export const ACT_GET_NEWS_POST_BY_CATEGORY = "ACT_GET_NEWS_POST_BY_CATEGORY";
 export const ACT_GET_CURRENT_USER_POSTS = "ACT_GET_CURRENT_USER_POSTS";
 export const ACT_GET_NEWS_POST_BY_QUERY_STRING = "ACT_GET_NEWS_POST_BY_QUERY";
+export const ACT_GET_NEWS_POST_BY_PID = "ACT_GET_NEWS_POST_BY_PID";
+export const ACT_RESET_CURRENT_PAGE = "ACT_RESET_CURRENT_PAGE";
+
 
 export function getNewPosts({ posts, pagesize, currPage }) {
   return {
@@ -11,7 +14,7 @@ export function getNewPosts({ posts, pagesize, currPage }) {
     payload: {
       posts,
       pagesize,
-      currPage
+      currPage,
     },
   };
 }
@@ -19,9 +22,9 @@ export function getNewPosts({ posts, pagesize, currPage }) {
 export function getNewPostsAsync(pagesize = 3, currPage = 1) {
   return async (dispatch) => {
     try {
-      const rest = await postsService.getNewPosts(pagesize, currPage );
+      const rest = await postsService.getNewPosts(pagesize, currPage);
       const data = rest.data.posts;
-      
+
       dispatch(
         getNewPosts({
           posts: data,
@@ -30,8 +33,7 @@ export function getNewPostsAsync(pagesize = 3, currPage = 1) {
         })
       );
 
-      return {ok : true};
-
+      return { ok: true };
     } catch (error) {
       console.log(error);
     }
@@ -80,23 +82,53 @@ export function getPostsByUserIdAsync(userId) {
   };
 }
 
-
 export function getPostsByQueryString(posts) {
   return {
     type: ACT_GET_NEWS_POST_BY_QUERY_STRING,
-    payload: {posts}
-  }
+    payload: { posts },
+  };
 }
 
-export function getPostsByQueryStringAsync(queryString){
-    return async (dispatch) => {
-      try { 
-        const res = await postsService.getPostsByQueryString(queryString);
-        dispatch(getPostsByQueryString(res.data.posts));
+export function getPostsByQueryStringAsync(queryString) {
+  return async (dispatch) => {
+    try {
+      const res = await postsService.getPostsByQueryString(queryString);
+      dispatch(getPostsByQueryString(res.data.posts));
 
-        return { ok : true}
-      } catch (error) {
+      return { ok: true };
+    } catch (error) {}
+  };
+}
 
-      }
+export function getPostByPostId(post, categories) {
+  return {
+    type: ACT_GET_NEWS_POST_BY_PID,
+    payload: { 
+      post: post, 
+      categories: categories 
+    },
+  };
+}
+
+export function getPostByPostIdAsync(postId) {
+  return async (dispatch) => {
+    try {
+      const res = await postsService.getPostByPostId(postId);
+      const post = res.data.data.post;
+      const categories = res.data.data.categories;
+      
+      dispatch(getPostByPostId(post,categories));
+
+      return { ok: true}
+    } catch (error) {
+      console.log(error);
     }
- }
+  };
+}
+
+
+export function resetCurrentPage(){
+  return {
+    type: ACT_RESET_CURRENT_PAGE
+  }
+}
