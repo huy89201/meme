@@ -77,11 +77,17 @@ function HomePage() {
           </Grid>
 
           <Grid item sm={5} xs={12} className={classes.displayNone}>
-            {currentUserPosts && currentUserPosts.length ? (
-              currentUserPosts.map((item) => (
-                <PostItem key={item.PID} item={item} isShowComents={true}/>
-              ))
-            ) : (
+            {currentUserPosts && currentUserPosts.length ? 
+            // (
+            //   currentUserPosts.map((item) => (
+            //     <PostItem key={item.PID} item={item} isShowComents={true}/>
+            //   ))
+            // ) 
+            ( 
+              <PostItem key={currentUserPosts[0].PID} item={currentUserPosts[0]} isShowComents={true}/>
+
+            )
+            : (
               <Typography>ban chua co bai viet nao</Typography>
             )}
           </Grid>

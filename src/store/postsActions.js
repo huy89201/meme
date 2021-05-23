@@ -6,7 +6,7 @@ export const ACT_GET_CURRENT_USER_POSTS = "ACT_GET_CURRENT_USER_POSTS";
 export const ACT_GET_NEWS_POST_BY_QUERY_STRING = "ACT_GET_NEWS_POST_BY_QUERY";
 export const ACT_GET_NEWS_POST_BY_PID = "ACT_GET_NEWS_POST_BY_PID";
 export const ACT_RESET_CURRENT_PAGE = "ACT_RESET_CURRENT_PAGE";
-
+// export const ACT_ADD_NEW_POST = "ACT_ADD_NEWS_POST";
 
 export function getNewPosts({ posts, pagesize, currPage }) {
   return {
@@ -103,9 +103,9 @@ export function getPostsByQueryStringAsync(queryString) {
 export function getPostByPostId(post, categories) {
   return {
     type: ACT_GET_NEWS_POST_BY_PID,
-    payload: { 
-      post: post, 
-      categories: categories 
+    payload: {
+      post: post,
+      categories: categories,
     },
   };
 }
@@ -116,19 +116,29 @@ export function getPostByPostIdAsync(postId) {
       const res = await postsService.getPostByPostId(postId);
       const post = res.data.data.post;
       const categories = res.data.data.categories;
-      
-      dispatch(getPostByPostId(post,categories));
 
-      return { ok: true}
+      dispatch(getPostByPostId(post, categories));
+
+      return { ok: true };
     } catch (error) {
       console.log(error);
     }
   };
 }
 
-
-export function resetCurrentPage(){
+export function resetCurrentPage() {
   return {
-    type: ACT_RESET_CURRENT_PAGE
-  }
+    type: ACT_RESET_CURRENT_PAGE,
+  };
+}
+
+export function addNewPostAsync(formData) {
+  return async () => {
+    try {
+      await postsService.addNewPost(formData);
+      return { ok: true};
+    } catch (error) {
+      return error;
+    }
+  };
 }

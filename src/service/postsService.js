@@ -25,20 +25,31 @@ const postsService = {
       },
     });
   },
-  getPostsByQueryString(queryString){
-    return api.get('/post/search.php',{
+  getPostsByQueryString(queryString) {
+    return api.get("/post/search.php", {
       params: {
-        query: queryString
-      }
-    })
+        query: queryString,
+      },
+    });
   },
   getPostByPostId(postId) {
     return api.get("/post/post.php", {
       params: {
-        postid: postId
-      }
-    })
-  }
+        postid: postId,
+      },
+    });
+  },
+  addNewPost(formData) {
+    return api.post("/post/addNew.php", formData);
+  },
+  // edditPost({ obj_image, url_image, post_content, category } = {}) {
+  //   return api.post("/post/addNew.php", {
+  //     obj_image: obj_image,
+  //     url_image: url_image,
+  //     post_content: post_content,
+  //     category: category,
+  //   });
+  // },
 };
 
 export default postsService;

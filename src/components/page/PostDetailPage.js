@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostByPostIdAsync } from "../../store/postsActions";
-import { Container, makeStyles, Grid, Typography } from "@material-ui/core";
+import { Container, makeStyles, Grid} from "@material-ui/core";
 import {getUserByIdAsync} from '../../store/userActions'
 import PostDetailItem from "../PostDetailItem"
 
@@ -20,6 +20,9 @@ function PostDetailPage() {
   const dispatch = useDispatch();
   const postDetail = useSelector((state) => state.posts.postDetail);
   const user = useSelector((state) => state.user.user);
+
+  const temp = useSelector((state) => state)
+  console.log(temp)
 
   const post = postDetail.post;
   const categories = postDetail.categories;

@@ -10,7 +10,6 @@ import {
   CardHeader,
   Avatar,
   CardMedia,
-  CardActions,
   CardContent,
 } from "@material-ui/core";
 
