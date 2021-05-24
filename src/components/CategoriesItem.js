@@ -1,14 +1,21 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 
-function CategoriesItem({ item, handleCategories }) {
-  if (!item) return;
+const useStyles = makeStyles((theme) => ({}));
+
+function CategoriesItem({ id, title, handleCategories, isChecked }) {
+  const classes = useStyles();
 
   return (
     <Grid item xs={6}>
       <div>
-        <input type="checkbox" value={item.id} onChange={handleCategories} />
-        <label>{item.text}</label>
+        <input
+          type="checkbox"
+          value={id}
+          onChange={handleCategories}
+          checked={isChecked}
+        />
+        <label>{title}</label>
       </div>
     </Grid>
   );

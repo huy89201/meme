@@ -1,6 +1,8 @@
 import categoriesService from '../service/categoriesService'
 
 export const ACT_GET_CATEGORIES = 'ACT_GET_CATEGORIES'
+export const ACT_CHECKED = 'ACT_CHECKED'
+export const ACT_RESET_CHECKED = 'ACT_RESET_CHECKED'
 
 export function getCategories(categories){
     return {
@@ -19,5 +21,18 @@ export function getCategoriesAsync(){
         } catch (error) {
             console.log(error)
         }
+    }
+}
+
+export function checked(id){
+    return {
+        type: ACT_CHECKED,
+        payload: {id}
+    }
+}
+
+export function resetChecked(){
+    return{
+        type: ACT_RESET_CHECKED
     }
 }

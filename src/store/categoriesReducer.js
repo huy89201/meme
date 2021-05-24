@@ -1,17 +1,47 @@
-import {ACT_GET_CATEGORIES} from './categoriesAction'
+import {
+  ACT_GET_CATEGORIES,
+  ACT_CHECKED,
+  ACT_RESET_CHECKED,
+} from "./categoriesAction";
 
 const initState = {
-    categories: [],
-}
+  categories: [],
+};
 
-export default function categoriesReducer(state = initState, actions){
-    switch (actions.type) {
-        case ACT_GET_CATEGORIES:
-             return {
-                 ...state,
-                categories: actions.payload.categories
-             }
+export default function categoriesReducer(state = initState, actions) {
+  switch (actions.type) {
+    case ACT_GET_CATEGORIES:
+      const hashCategories = [];
+      actions.payload.categories.forEach((item) => {
+        hashCategories.push({
+          key: item.id,
+          text: item.text,
+          isChecked: false,
+        });
+      });
+      return {
+        ...state,
+        categories: hashCategories,
+      };
+    case ACT_CHECKED:
+      return {
+        ...state,
+        categories: state.categories.map((item) => {
+          if (item.key === actions.payload.id) item.isChecked = !item.isChecked;
 
-        default : return state;
-    }
+          return item;
+        }),
+      };
+    case ACT_RESET_CHECKED:
+      return {
+        ...state,
+        categories: state.categories.map((item) => {
+          item.isChecked = false;
+
+          return item;
+        }),
+      };
+    default:
+      return state;
+  }
 }

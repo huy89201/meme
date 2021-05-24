@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState ,useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { addNewPostAsync } from "../../store/postsActions";
-import { useDispatch } from "react-redux";
 import { Container, makeStyles, Grid, Paper, Button } from "@material-ui/core";
 import CategoriesItem from "../CategoriesItem";
-import { set } from "react-hook-form";
+import { checked, resetChecked } from "../../store/categoriesAction";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -63,6 +62,7 @@ function UpLoadPage() {
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.categories.categories);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [previewImg, setPreviewImg] = useState("");
   const [postData, setPostData] = useState({
     obj_image: {},
@@ -81,7 +81,6 @@ function UpLoadPage() {
     reader.readAsDataURL(file);
 
     setPostData({ ...postData, obj_image: file, url_image: "" });
-    // setPostData({ ...postData, url_image: "" });
 
     reader.onload = (evt) => {
       setPreviewImg(evt.target.result);
@@ -90,6 +89,8 @@ function UpLoadPage() {
 
   function handleCategories(evt) {
     const value = evt.target.value;
+
+    dispatch(checked(Number(value)));
 
     setPostData({
       ...postData,
@@ -118,12 +119,17 @@ function UpLoadPage() {
   async function handleSubmit(evt) {
     evt.preventDefault();
 
+    if (isLoading) return;
+    if (!postData.post_content || !postData.category.length) return;
+
     const formData = new FormData();
 
-    formData.append('obj_image', postData.obj_image);
-    formData.append('url_image', postData.url_image);
-    formData.append('post_content', postData.post_content);
-    formData.append('category', postData.category);
+    formData.append("obj_image", postData.obj_image);
+    formData.append("url_image", postData.url_image);
+    formData.append("post_content", postData.post_content);
+    formData.append("category", postData.category);
+
+    setIsLoading(true);
 
     await dispatch(addNewPostAsync(formData)).then((res) => {
       if (res.ok) {
@@ -134,11 +140,18 @@ function UpLoadPage() {
           category: [],
         });
         setError("");
+        setIsLoading(false);
+        dispatch(resetChecked());
       } else {
         setError(res.error);
       }
     });
   }
+
+  useEffect(() => {
+    return dispatch(resetChecked());
+  },[])
+
   return (
     <div>
       <Container className={classes.container}>
@@ -199,8 +212,10 @@ function UpLoadPage() {
             <Grid container style={{ marginBottom: "1rem" }}>
               {categories.map((item) => (
                 <CategoriesItem
-                  key={item.id}
-                  item={item}
+                  key={item.key}
+                  id={item.key}
+                  title={item.text}
+                  isChecked={item.isChecked}
                   handleCategories={handleCategories}
                 />
               ))}

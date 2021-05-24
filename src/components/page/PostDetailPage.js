@@ -47,7 +47,7 @@ function PostDetailPage() {
     <div>
       <Container className={classes.container}>
         <Grid container className={classes.container}>
-          <Grid item xs={8}>
+          <Grid item xs={12}>
             {/* bug: Failed prop type: Invalid prop `children` supplied to `ForwardRef(Grid)`, expected a ReactNode. */}
             {isLoading || isLoading2 || <PostDetailItem user={user} post={post} categories={categories} />}
           </Grid> 
