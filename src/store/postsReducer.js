@@ -4,7 +4,7 @@ import {
   ACT_GET_CURRENT_USER_POSTS,
   ACT_GET_NEWS_POST_BY_QUERY_STRING,
   ACT_GET_NEWS_POST_BY_PID,
-  ACT_RESET_CURRENT_PAGE
+  ACT_RESET_CURRENT_PAGE,
 } from "./postsActions";
 
 const initState = {
@@ -12,13 +12,13 @@ const initState = {
   postPaging: {
     postList: [],
     pagesize: 3,
-    curPage: 1,
+    currPage: 1,
   },
   SearchingPosts: [],
   postDetail: {
     post: {},
     categories: [],
-  }
+  },
 };
 
 export default function postsReducer(state = initState, actions) {
@@ -28,45 +28,54 @@ export default function postsReducer(state = initState, actions) {
         ...state,
         postPaging: {
           postList:
-            actions.payload.curPage === 1
+            actions.payload.currPage === 1
               ? actions.payload.posts
               : [...state.postPaging.postList, ...actions.payload.posts],
           pagesize: actions.payload.pagesize,
-          curPage: actions.payload.currPage + 1
+          currPage: actions.payload.currPage + 1,
         },
       };
 
     case ACT_GET_NEWS_POST_BY_CATEGORY:
       return {
         ...state,
-        categoryPosts: actions.payload.posts,
+        postPaging: {
+          ...state.postPaging,
+          postList:
+            actions.payload.currPage === 1
+              ? actions.payload.posts
+              : [...state.postPaging.postList, ...actions.payload.posts],
+          pagesize: actions.payload.pagesize,
+          currPage: actions.payload.currPage + 1,
+        },
       };
     case ACT_GET_CURRENT_USER_POSTS:
       return {
         ...state,
         currentUserPosts: actions.payload.posts,
       };
-    case ACT_GET_NEWS_POST_BY_QUERY_STRING :
+    case ACT_GET_NEWS_POST_BY_QUERY_STRING:
       return {
         ...state,
-        SearchingPosts: actions.payload.posts
-      }
-    case ACT_GET_NEWS_POST_BY_PID :
+        SearchingPosts: actions.payload.posts,
+      };
+    case ACT_GET_NEWS_POST_BY_PID:
       return {
         ...state,
         postDetail: {
           post: actions.payload.post,
           categories: actions.payload.categories,
-        }
-      }
+        },
+      };
     case ACT_RESET_CURRENT_PAGE:
       return {
         ...state,
         postPaging: {
-            ...state.postPaging,
-          curPage: 2
+          ...state.postPaging,
+          currPage: 1,
+          postList: [],
         },
-      }
+      };
 
     default:
       return state;

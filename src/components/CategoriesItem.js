@@ -7,7 +7,7 @@ function CategoriesItem({ id, title, handleCategories, isChecked }) {
   const classes = useStyles();
 
   return (
-    <Grid item xs={6}>
+    <Grid item md={4} xs={6}>
       <div>
         <input
           type="checkbox"

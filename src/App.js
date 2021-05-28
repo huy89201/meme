@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import HomePage from "./components/page/HomePage";
@@ -13,13 +13,23 @@ import SearchPage from "./components/page/SearchPage";
 import NavBar from "./components/NavBar";
 import MobileNavbar from "./components/MobileNavbar";
 import { setToken, getCurrentUserAsync, setId } from "./store/userActions";
-import {getCategoriesAsync} from './store/categoriesAction'
+import { getCategoriesAsync } from "./store/categoriesAction";
+import MobileCategories from "./components/MobileCategories";
 
 function App() {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const userId = localStorage.getItem("id");
-  const categories = useSelector((state) => state.categories.categories)
+  const categories = useSelector((state) => state.categories.categories);
+  const [isOpenMobileCategories, setIsOpenMobileCategories] = useState(false);
+
+  function handleMobileCategories(evt) {
+    if (evt.type === "keydown" && (evt.key === "Tab" || evt.key === "Shift")) {
+      return;
+    }
+
+    setIsOpenMobileCategories(!isOpenMobileCategories);
+  }
 
   useEffect(() => {
     dispatch(getCurrentUserAsync(userId));
@@ -29,15 +39,16 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if(categories.length) return;
+    if (categories.length) return;
     dispatch(getCategoriesAsync());
     // eslint-disable-next-line
-  },[])
- 
+  }, []);
+
   return (
     <div className="App">
       <Router>
-        <NavBar />
+          
+        <NavBar handleMobileCategories={handleMobileCategories} />
         <Switch>
           <Route path="/upload">
             <UpLoadPage />
@@ -45,7 +56,7 @@ function App() {
           <Route path="/login">
             <LoginPage />
           </Route>
-          <Route path="/category">
+          <Route path="/category-tagIndex=:tagIndex">
             <CategoryPage />
           </Route>
           <Route path="/userpageId=:UID">
@@ -64,7 +75,11 @@ function App() {
             <HomePage />
           </Route>
         </Switch>
-        <MobileNavbar />
+        <MobileCategories
+          isOpenMobileCategories={isOpenMobileCategories}
+          handleMobileCategories={handleMobileCategories}
+        />
+        <MobileNavbar handleMobileCategories={handleMobileCategories} />
       </Router>
     </div>
   );

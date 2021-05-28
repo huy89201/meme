@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MobileNavbar() {
+function MobileNavbar({handleMobileCategories}) {
   const classes = useStyles();
 
   return (
     <div className="mobile--navbar">
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <IconButton>
+          <IconButton onClick={handleMobileCategories}>
             <MenuIcon className={classes.Icon} />
           </IconButton>
           <IconButton>

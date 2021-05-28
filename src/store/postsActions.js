@@ -40,20 +40,32 @@ export function getNewPostsAsync(pagesize = 3, currPage = 1) {
   };
 }
 
-export function getNewPostsByCategory(posts) {
+export function getNewPostsByCategory({ posts, pagesize, currPage }) {
   return {
     type: ACT_GET_NEWS_POST_BY_CATEGORY,
-    payload: posts,
+    payload: { posts, pagesize, currPage },
   };
 }
 
-export function getNewPostsByCategoryAsync(tagIndex) {
+export function getNewPostsByCategoryAsync(pagesize, currPage, tagIndex) {
   return async (dispatch) => {
     try {
-      const rest = await postsService.getNewPostsByCategory({ tagIndex });
+      const rest = await postsService.getNewPostsByCategory(
+        pagesize,
+        currPage,
+        tagIndex
+      );
       const data = rest.data.posts;
 
-      dispatch(getNewPostsByCategory(data));
+      dispatch(
+        getNewPostsByCategory({
+          posts: data,
+          pagesize: pagesize,
+          currPage: currPage,
+        })
+      );
+
+      return { ok: true };
     } catch (error) {
       console.log(error);
     }
@@ -136,7 +148,7 @@ export function addNewPostAsync(formData) {
   return async () => {
     try {
       await postsService.addNewPost(formData);
-      return { ok: true};
+      return { ok: true };
     } catch (error) {
       return error;
     }

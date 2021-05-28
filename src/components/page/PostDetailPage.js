@@ -21,9 +21,6 @@ function PostDetailPage() {
   const postDetail = useSelector((state) => state.posts.postDetail);
   const user = useSelector((state) => state.user.user);
 
-  const temp = useSelector((state) => state)
-  console.log(temp)
-
   const post = postDetail.post;
   const categories = postDetail.categories;
 

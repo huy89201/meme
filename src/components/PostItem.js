@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import { getUserByIdAsync } from "../store/userActions";
@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PostItem({ item }) {
+function PostItem({ item, isShowComents = false }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(false);
@@ -100,7 +100,7 @@ function PostItem({ item }) {
           </IconButton>
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <PostComments PID={item.PID} isShowComentInput={true}/>
+          {isShowComents &&<PostComments PID={item.PID} isShowComentInput={true} />}
         </Collapse>
       </Card>
     </Grow>

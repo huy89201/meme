@@ -1,6 +1,6 @@
 import React, { useState ,useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addNewPostAsync } from "../../store/postsActions";
+import { addNewPostAsync,getNewPostsAsync } from "../../store/postsActions";
 import { Container, makeStyles, Grid, Paper, Button } from "@material-ui/core";
 import CategoriesItem from "../CategoriesItem";
 import { checked, resetChecked } from "../../store/categoriesAction";
@@ -44,9 +44,6 @@ const useStyles = makeStyles((theme) => ({
   },
   girdItem: {
     padding: "1rem",
-    // [theme.breakpoints.down("xs")]: {
-    //   display: "none",
-    // },
   },
   upLoadBtn: {
     width: "100%",
@@ -142,6 +139,7 @@ function UpLoadPage() {
         setError("");
         setIsLoading(false);
         dispatch(resetChecked());
+        dispatch(getNewPostsAsync());
       } else {
         setError(res.error);
       }

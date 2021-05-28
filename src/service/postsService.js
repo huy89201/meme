@@ -9,7 +9,7 @@ const postsService = {
       },
     });
   },
-  getNewPostsByCategory({ pagesize = 3, currPage = 1, tagIndex } = {}) {
+  getNewPostsByCategory(pagesize = 3, currPage = 1, tagIndex) {
     return api.get("/post/getListByCategory.php", {
       params: {
         pagesize: pagesize,

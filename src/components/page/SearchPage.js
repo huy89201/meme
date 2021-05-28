@@ -28,7 +28,7 @@ function SearchPage() {
     <div>
       <Container className={classes.container}>
         <Grid container>
-          <Grid item sm={12}>
+          <Grid item xs={12}>
              {isLoading || <h1>co {posts.length} ket qua cho "{params.querySting}" </h1>}
             {posts.map((item) => (
               <PostItem key={item.PID} item={item} />

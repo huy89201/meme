@@ -29,11 +29,14 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "whitesmoke",
     padding: "2rem",
     margin: "0 auto",
+    [theme.breakpoints.down("sm")]: {
+      width: '85%'
+    },
   },
   title: {
     padding: "0.5rem 1rem",
     fontWeight: "bold",
-    fontSize: "4rem",
+    fontSize: "3rem",
     textAlign: "center",
   },
   input: {
@@ -162,7 +165,7 @@ function RegisterPage() {
             </Button>
           </form>
         </Paper>
-      </Container>
+      </Container>ca
     </div>
   );
 }

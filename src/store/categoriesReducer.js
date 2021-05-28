@@ -2,6 +2,7 @@ import {
   ACT_GET_CATEGORIES,
   ACT_CHECKED,
   ACT_RESET_CHECKED,
+  ACT_SINGLE_CHECKED,
 } from "./categoriesAction";
 
 const initState = {
@@ -37,6 +38,15 @@ export default function categoriesReducer(state = initState, actions) {
         ...state,
         categories: state.categories.map((item) => {
           item.isChecked = false;
+
+          return item;
+        }),
+      };
+    case ACT_SINGLE_CHECKED:
+      return {
+        ...state,
+        categories: state.categories.map((item) => {
+          if (item.key !== actions.payload.id) item.isChecked = false;
 
           return item;
         }),

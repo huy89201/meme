@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import Search from "./Search";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "@material-ui/core/Avatar";
 
 import {
   makeStyles,
@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   Avatar: {
-    marginRight : "0.5rem"
-  }
+    marginRight: "0.5rem",
+  },
 }));
 
 function HideOnScroll(props) {
@@ -64,7 +64,7 @@ function HideOnScroll(props) {
   );
 }
 
-function NavBar() {
+function NavBar({ handleMobileCategories }) {
   const classes = useStyles();
   const currentUser = useSelector((state) => state.user.currentUser);
 
@@ -78,11 +78,8 @@ function NavBar() {
                 <ListItem component={Link} to="/">
                   <ListItemText className={classes.listText} primary="MEME" />
                 </ListItem>
-                <ListItem component={Link} to="/category">
-                  <ListItemText
-                    className={classes.listText}
-                    primary="CATEGORY"
-                  />
+                <ListItem component={Link} to="/category-tagIndex=">
+                  <Button className={classes.listText} onClick={handleMobileCategories}>CATEGORY</Button>
                 </ListItem>
                 <ListItem component={Link} to="/">
                   <ListItemText className={classes.listText} primary="HOT" />
@@ -103,8 +100,14 @@ function NavBar() {
               </Button>
               {currentUser.token && currentUser.userData ? (
                 <Button className={classes.Button}>
-                  <Avatar alt="user avatar" src={currentUser.userData.profilepicture} className={classes.Avatar} />
-                  <Link to={`/userpageId=${currentUser.id}`}>{currentUser.userData.fullname}</Link>
+                  <Avatar
+                    alt="user avatar"
+                    src={currentUser.userData.profilepicture}
+                    className={classes.Avatar}
+                  />
+                  <Link to={`/userpageId=${currentUser.id}`}>
+                    {currentUser.userData.fullname}
+                  </Link>
                 </Button>
               ) : (
                 <Button className={classes.Button}>

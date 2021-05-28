@@ -26,11 +26,10 @@ const useStyles = makeStyles((theme) => ({
 function HomePage() {
   const dispatch = useDispatch();
   const classes = useStyles();
-  const postList = useSelector((state) => state.posts.postPaging.postList);
   const postPaging = useSelector((state) => state.posts.postPaging);
   const currentUser = useSelector((state) => state.user.currentUser);
   const currentUserPosts = useSelector((state) => state.posts.currentUserPosts);
-  const { curPage, pagesize } = postPaging;
+  const { currPage, pagesize, postList } = postPaging;
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
@@ -53,7 +52,7 @@ function HomePage() {
 
     setIsFetching(true);
 
-    await dispatch(getNewPostsAsync(pagesize, curPage)).then((res) => {
+    await dispatch(getNewPostsAsync(pagesize, currPage)).then((res) => {
       res.ok && setIsFetching(false);
     });
   };
@@ -84,7 +83,7 @@ function HomePage() {
             //   ))
             // ) 
             ( 
-              <PostItem key={currentUserPosts[0].PID} item={currentUserPosts[0]} isShowComents={true}/>
+              <PostItem key={currentUserPosts[0].PID} item={currentUserPosts[0]} isShowComents={false}/>
 
             )
             : (
