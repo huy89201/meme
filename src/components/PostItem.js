@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import { getUserByIdAsync } from "../store/userActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import clsx from "clsx";
 import PostComments from "./PostComments";
+import { getPostByPostIdAsync } from "../store/postsActions";
 import {
   makeStyles,
   Grow,
@@ -49,9 +49,10 @@ function PostItem({ item, isShowComents = false }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(false);
+  const userId = useSelector((state) => state.posts.postDetail.post.USERID);
 
   useEffect(() => {
-    dispatch(getUserByIdAsync(item.USERID));
+    dispatch(getPostByPostIdAsync(item.PID))
     // eslint-disable-next-line
   }, []);
 
@@ -61,16 +62,20 @@ function PostItem({ item, isShowComents = false }) {
     setExpanded(!expanded);
   };
 
+  // console.log(userId)
+
   return (
     <Grow in={true}>
       <Card className={classes.Card}>
         <CardHeader
           avatar={
-            <Link to={`/userpageId=${item.USERID}`}>
+            <Link to={`/userpageId=${item.USERID || userId}`}>
               <Avatar aria-label="recipe" src={item.profilepicture} />
             </Link>
           }
-          title={<Link to={`/userpageId=${item.USERID}`}>{item.fullname}</Link>}
+          title={
+            <Link to={`/userpageId==${item.USERID || userId}`}>{item.fullname}</Link>
+          }
           subheader={item.time_added}
         />
         <CardContent>
@@ -88,19 +93,23 @@ function PostItem({ item, isShowComents = false }) {
         <CardActions disableSpacing>
           <ChatBubbleIcon className={classes.ChatBubbleIcon} />
           <Typography className={classes.itemStatus}>{item.count}</Typography>
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: expanded,
-            })}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon fontSize="large" />
-          </IconButton>
+          {isShowComents && (
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: expanded,
+              })}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon fontSize="large" />
+            </IconButton>
+          )}
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {isShowComents &&<PostComments PID={item.PID} isShowComentInput={true} />}
+          {isShowComents && (
+            <PostComments PID={item.PID} isShowComentInput={true} />
+          )}
         </Collapse>
       </Card>
     </Grow>

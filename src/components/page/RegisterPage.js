@@ -165,7 +165,7 @@ function RegisterPage() {
             </Button>
           </form>
         </Paper>
-      </Container>ca
+      </Container>
     </div>
   );
 }

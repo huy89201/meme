@@ -29,6 +29,7 @@ function PostDetailItem({ user, post, categories }) {
   const cmt = useSelector((state) => state.comments.comments);
   const currentUser = useSelector((state) => state.user.currentUser);
 
+
   return (
     <div>
       <Card className={classes.Card}>

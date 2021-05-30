@@ -11,7 +11,7 @@ import {
   getNewPostsByCategoryAsync,
   resetCurrentPage,
 } from "../../store/postsActions";
-import { Container, makeStyles, Grid, Paper, Button } from "@material-ui/core";
+import { Container, makeStyles, Grid, Button } from "@material-ui/core";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PostItem from "../PostItem";
 
@@ -44,7 +44,9 @@ function CategoryPage() {
 
     return () => {
       dispatch(resetCurrentPage());
+      
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => setKey(tagIndex), [tagIndex]);

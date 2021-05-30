@@ -3,19 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getNewPostsAsync,
   getPostsByUserIdAsync,
-  resetCurrentPage
+  resetCurrentPage,
 } from "../../store/postsActions";
-import { Container, makeStyles, Grid, Typography } from "@material-ui/core";
+import { makeStyles, Grid, Typography } from "@material-ui/core";
 import PostItem from "../PostItem";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: "6rem",
-    marginBottom: "4rem",
-    display: "flex",
-    flexWrap: "wrap",
-  },
   displayNone: {
     [theme.breakpoints.down("xs")]: {
       display: "none",
@@ -28,23 +22,22 @@ function HomePage() {
   const classes = useStyles();
   const postPaging = useSelector((state) => state.posts.postPaging);
   const currentUser = useSelector((state) => state.user.currentUser);
+  const token = useSelector((state) => state.user.currentUser.token);
   const currentUserPosts = useSelector((state) => state.posts.currentUserPosts);
   const { currPage, pagesize, postList } = postPaging;
   const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
-    if (postList.length) return;
     dispatch(getNewPostsAsync());
-    // eslint-disable-next-line
-    
-    return  () =>{
-      dispatch(resetCurrentPage());  
-    }
+
+    return () => {
+      dispatch(resetCurrentPage());
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     dispatch(getPostsByUserIdAsync(Number(currentUser.id)));
-    // eslint-disable-next-line
   }, [currentUser.id]);
 
   const fetchMoreData = async () => {
@@ -57,41 +50,39 @@ function HomePage() {
     });
   };
 
-
   return (
     <div className="home--page--wrapper">
-      <Container className={classes.container}>
-        <Grid container spacing={2}>
-          <Grid item sm={7} xs={12}>
-            <InfiniteScroll
-              dataLength={postList.length}
-              next={fetchMoreData}
-              hasMore={true}
-              loader={<h4>Loading...</h4>}
-            >
-              {postList.map((item) => (
-                <PostItem key={item.PID} item={item} />
-              ))}
-            </InfiniteScroll>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item sm={7} xs={12}>
+          <InfiniteScroll
+            dataLength={postList.length}
+            next={fetchMoreData}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+          >
+            {postList.map((item) => (
+              <PostItem key={item.PID} item={item} />
+            ))}
+          </InfiniteScroll>
+        </Grid>
 
-          <Grid item sm={5} xs={12} className={classes.displayNone}>
-            {currentUserPosts && currentUserPosts.length ? 
+        <Grid item sm={5} xs={12} className={classes.displayNone}>
+          {currentUserPosts && currentUserPosts.length ? (
             // (
             //   currentUserPosts.map((item) => (
             //     <PostItem key={item.PID} item={item} isShowComents={true}/>
             //   ))
-            // ) 
-            ( 
-              <PostItem key={currentUserPosts[0].PID} item={currentUserPosts[0]} isShowComents={false}/>
-
-            )
-            : (
-              <Typography>ban chua co bai viet nao</Typography>
-            )}
-          </Grid>
+            // )
+            <PostItem
+              key={currentUserPosts[0].PID}
+              item={currentUserPosts[0]}
+              isShowComents={false}
+            />
+          ) : (
+            <Typography>ban chua co bai viet nao</Typography>
+          )}
         </Grid>
-      </Container>
+      </Grid>
     </div>
   );
 }

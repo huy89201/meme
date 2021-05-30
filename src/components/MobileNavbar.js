@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
 function MobileNavbar({handleMobileCategories}) {
   const classes = useStyles();
 
+  const currentUserId = localStorage.getItem("id")
+
   return (
     <div className="mobile--navbar">
       <AppBar position="fixed" className={classes.appBar}>
@@ -37,7 +39,7 @@ function MobileNavbar({handleMobileCategories}) {
             </Link>
           </IconButton>
           <IconButton>
-            <Link to="/login">
+            <Link to={currentUserId ? `/userpageId=${currentUserId}` : '/login'}>
               <AccountCircleIcon className={classes.Icon} />
             </Link>
           </IconButton>

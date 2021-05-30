@@ -22,6 +22,9 @@ const userService = {
       repassword: repassword,
     });
   },
+  updateInfo(formData){
+    return api.post('/member/update.php',formData);
+  }
 };
 
 export default userService;

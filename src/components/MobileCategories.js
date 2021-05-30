@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles, Drawer, List } from "@material-ui/core";
+import { makeStyles, Drawer, List, Grid } from "@material-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { getNewPostsByCategoryAsync } from "../store/postsActions";
@@ -7,12 +7,14 @@ import { getNewPostsByCategoryAsync } from "../store/postsActions";
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "1rem",
-  },
-  list: {
-    width: "40vw",
+    width: "100vw",
+    height: "50vh",
   },
   title: {
     fontSize: "3rem",
+  },
+  item: {
+    padding: "0.5rem",
   },
 }));
 
@@ -23,6 +25,8 @@ function MobileCategories({ isOpenMobileCategories, handleMobileCategories }) {
   const categories = useSelector((state) => state.categories.categories);
 
   async function handleCategoriesItem(key) {
+    if (!key) history.push("/");
+
     await dispatch(getNewPostsByCategoryAsync(3, 1, key)).then((res) => {
       if (res.ok) {
         history.push(`category-tagIndex=${key}`);
@@ -32,19 +36,26 @@ function MobileCategories({ isOpenMobileCategories, handleMobileCategories }) {
 
   return (
     <Drawer
-      anchor="left"
+      anchor="top"
       classes={{ paper: classes.root }}
       transitionDuration={300}
       open={isOpenMobileCategories}
       onClose={handleMobileCategories}
     >
       <h1 className={classes.title}>Categories</h1>
-      <List className={classes.list} onClick={handleMobileCategories}>
-        {categories.map((item) => (
-          <p key={item.key} onClick={() => handleCategoriesItem(item.key)}>
-            {item.text}
-          </p>
-        ))}
+      <List onClick={handleMobileCategories}>
+        <Grid container>
+          {categories.map((item, index) => (
+            <Grid item xs={4} key={item.key}>
+              <p
+                className={classes.item}
+                onClick={() => handleCategoriesItem(item.key)}
+              >
+                {item.text}
+              </p>
+            </Grid>
+          ))}
+        </Grid>
       </List>
     </Drawer>
   );

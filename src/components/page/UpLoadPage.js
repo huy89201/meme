@@ -1,17 +1,11 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addNewPostAsync,getNewPostsAsync } from "../../store/postsActions";
-import { Container, makeStyles, Grid, Paper, Button } from "@material-ui/core";
+import { addNewPostAsync, getNewPostsAsync } from "../../store/postsActions";
+import { makeStyles, Grid, Paper, Button } from "@material-ui/core";
 import CategoriesItem from "../CategoriesItem";
 import { checked, resetChecked } from "../../store/categoriesAction";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: "6rem",
-    marginBottom: "4rem",
-    display: "flex",
-    flexWrap: "wrap",
-  },
   paper: {
     padding: "1rem",
   },
@@ -115,7 +109,7 @@ function UpLoadPage() {
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-
+    
     if (isLoading) return;
     if (!postData.post_content || !postData.category.length) return;
 
@@ -148,89 +142,84 @@ function UpLoadPage() {
 
   useEffect(() => {
     return dispatch(resetChecked());
-  },[])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div>
-      <Container className={classes.container}>
-        <Grid container>
-          <Grid item sm={7} xs={12}>
-            <Paper elevation={3} className={classes.paper}>
-              <form onSubmit={handleSubmit}>
-                <input
-                  className={classes.input}
-                  placeholder="https"
-                  value={postData.url_image}
-                  onChange={handleLinkImg}
-                />
-                <textarea
-                  className={classes.textarea}
-                  placeholder="description"
-                  value={postData.post_content}
-                  onChange={(evt) =>
-                    setPostData({ ...postData, post_content: evt.target.value })
-                  }
-                />
-                <img
-                  className={classes.img}
-                  src={previewImg || postData.url_image || defaultImage}
-                  alt=""
-                />
-                <input
-                  accept="image/*"
-                  className={classes.none}
-                  id="contained-button-file"
-                  multiple
-                  type="file"
-                  onChange={handleImage}
-                />
-                <label htmlFor="contained-button-file">
-                  <Button variant="contained" color="primary" component="span">
-                    from device
-                  </Button>
-                </label>
+    <Grid container>
+      <Grid item sm={7} xs={12}>
+        <Paper elevation={3} className={classes.paper}>
+          <form onSubmit={handleSubmit}>
+            <input
+              className={classes.input}
+              placeholder="https"
+              value={postData.url_image}
+              onChange={handleLinkImg}
+            />
+            <textarea
+              className={classes.textarea}
+              placeholder="description"
+              value={postData.post_content}
+              onChange={(evt) =>
+                setPostData({ ...postData, post_content: evt.target.value })
+              }
+            />
+            <img
+              className={classes.img}
+              src={previewImg || postData.url_image || defaultImage}
+              alt=""
+            />
+            <input
+              accept="image/*"
+              className={classes.none}
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={handleImage}
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span">
+                from device
+              </Button>
+            </label>
 
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className={classes.gifBtn}
-                  component="a"
-                  href="https://giphy.com/"
-                  target="_blank"
-                >
-                  from gif
-                </Button>
-              </form>
-            </Paper>
-          </Grid>
-          <Grid item sm={5} xs={12} className={classes.girdItem}>
-            <p style={{ marginBottom: "1rem", fontSize: "1.25rem" }}>
-              categories:
-            </p>
-            <Grid container style={{ marginBottom: "1rem" }}>
-              {categories.map((item) => (
-                <CategoriesItem
-                  key={item.key}
-                  id={item.key}
-                  title={item.text}
-                  isChecked={item.isChecked}
-                  handleCategories={handleCategories}
-                />
-              ))}
-            </Grid>
             <Button
               variant="contained"
-              color="primary"
-              className={classes.upLoadBtn}
-              onClick={handleSubmit}
+              color="secondary"
+              className={classes.gifBtn}
+              component="a"
+              href="https://giphy.com/"
+              target="_blank"
             >
-              up load
+              from gif
             </Button>
-            {error && <p>{error}</p>}
-          </Grid>
+          </form>
+        </Paper>
+      </Grid>
+      <Grid item sm={5} xs={12} className={classes.girdItem}>
+        <p style={{ marginBottom: "1rem", fontSize: "1.25rem" }}>categories:</p>
+        <Grid container style={{ marginBottom: "1rem" }}>
+          {categories.map((item) => (
+            <CategoriesItem
+              key={item.key}
+              id={item.key}
+              title={item.text}
+              isChecked={item.isChecked}
+              handleCategories={handleCategories}
+            />
+          ))}
         </Grid>
-      </Container>
-    </div>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.upLoadBtn}
+          onClick={handleSubmit}
+        >
+          up load
+        </Button>
+        {error && <p>{error}</p>}
+      </Grid>
+    </Grid>
   );
 }
 

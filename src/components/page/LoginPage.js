@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "whitesmoke",
     padding: "2rem",
     margin: "0 auto",
+    [theme.breakpoints.down("xs")]: {
+      width: "100%",
+    },
   },
   SubmitButton: {
     backgroundColor: "#ec5990",

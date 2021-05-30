@@ -15,3 +15,10 @@ body {
 a {
   color: black;
 }
+
+input, textarea {
+  outline: none;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+}

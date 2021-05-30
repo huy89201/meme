@@ -3,8 +3,8 @@ import userService from "../service/userService";
 export const ACT_GET_USER_BY_ID = "GET_USER_BY_ID";
 export const ACT_GET_CURRENT_USER = "ACT_GET_CURRENT_USER";
 export const ACT_LOGOUT = "ACT_LOGOUT";
-export const ACT_SET_TOKEN = "ACT_SET_TOKEN"
-export const ACT_SET_ID = "ACT_SET_ID"
+export const ACT_SET_TOKEN = "ACT_SET_TOKEN";
+export const ACT_SET_ID = "ACT_SET_ID";
 
 export function getUserById(user) {
   return {
@@ -20,7 +20,7 @@ export function getUserByIdAsync(userId) {
       const user = res.data.user;
 
       dispatch(getUserById(user));
-      return { ok: true}
+      return { ok: true };
     } catch (error) {
       console.log(error);
     }
@@ -37,12 +37,12 @@ export function registerAsync({ email, fullname, password, repassword }) {
         repassword,
       });
 
-      return { ok : true}
+      return { ok: true };
     } catch (error) {
       return {
         ok: false,
-        error: error
-      }
+        error: error,
+      };
     }
   };
 }
@@ -68,21 +68,21 @@ export function getCurrentUserAsync(id) {
 }
 
 export function setToken(token) {
-    return {
-        type: ACT_SET_TOKEN,
-        payload: {
-            token: token
-        }
-    }
+  return {
+    type: ACT_SET_TOKEN,
+    payload: {
+      token: token,
+    },
+  };
 }
 
 export function setId(id) {
-  return{
+  return {
     type: ACT_SET_ID,
     payload: {
-      id: id
-    }
-  }
+      id: id,
+    },
+  };
 }
 
 export function loginAsync({ email, password }) {
@@ -99,23 +99,34 @@ export function loginAsync({ email, password }) {
       dispatch(setId(userId));
       dispatch(setToken(token));
       return {
-        ok : true,
-      }
+        ok: true,
+      };
     } catch (error) {
       return {
         ok: false,
-        error : error
-      }
+        error: error,
+      };
     }
   };
 }
 
+export function updateInfo(formData) {
+  return async () => {
+    try {
+      await userService.updateInfo(formData);
 
-export function logOut(){
-  localStorage.removeItem('token');
-  localStorage.removeItem('id');
+      return { ok: true };
+    } catch (error) {
+      return error;
+    }
+  };
+}
+
+export function logOut() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("id");
   return {
     type: ACT_LOGOUT,
-    payload: {}
-  }
+    payload: {},
+  };
 }
