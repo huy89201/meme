@@ -13,6 +13,7 @@ const initState = {
     userData: {},
   },
   user: {},
+  members: []
 };
 
 export default function userRecuder(state = initState, actions) {

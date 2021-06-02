@@ -64,14 +64,6 @@ function UserPage() {
   const user = useSelector((state) => state.user.user);
   const [isLoading, setIsLoading] = useState(false);
 
-
-
-
-  // if(!userId){
-  //   history.push('/');
-  //   return;
-  // }
-
   useEffect(() => {
     setIsLoading(true);
     dispatch(getUserByIdAsync(userId));
@@ -109,21 +101,13 @@ function UserPage() {
                   Đang theo dõi {showInfo("youviewed")}
                 </div>
               </div>
-              {userId === currentUser.id ? (
+              {userId === currentUser.id && (
                 <Button
                   color="primary"
                   variant="contained"
                   className={classes.button}
                 >
                   <Link to={`/user-info-id=${userId}`}>xem thông tin</Link>
-                </Button>
-              ) : (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  className={classes.button}
-                >
-                  theo dõi
                 </Button>
               )}
             </div>

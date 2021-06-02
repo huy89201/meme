@@ -11,6 +11,7 @@ import PostDetailPage from "./components/page/PostDetailPage";
 import UserPage from "./components/page/UserPage";
 import RegisterPage from "./components/page/RegisterPage";
 import SearchPage from "./components/page/SearchPage";
+import UpdatePassWord from './components/page/UpdatePassWord'
 import NavBar from "./components/NavBar";
 import MobileNavbar from "./components/MobileNavbar";
 import UserInfo from './components/page/UserInfo'
@@ -32,7 +33,7 @@ function App() {
   const userId = localStorage.getItem("id");
   const categories = useSelector((state) => state.categories.categories);
   const [isOpenMobileCategories, setIsOpenMobileCategories] = useState(false);
-  const currentUserId = useSelector((state) => state.user.currentUser.id)
+  // const currentUserId = useSelector((state) => state.user.currentUser.id)
 
   function handleMobileCategories(evt) {
     if (evt.type === "keydown" && (evt.key === "Tab" || evt.key === "Shift")) {
@@ -88,6 +89,9 @@ function App() {
             </Route>
             <Route path="/user-info-id=:id">
               <UserInfo />
+            </Route>
+            <Route path="/password">
+              <UpdatePassWord/>
             </Route>
             <Route path="/">
               <HomePage />

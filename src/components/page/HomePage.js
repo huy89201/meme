@@ -22,7 +22,6 @@ function HomePage() {
   const classes = useStyles();
   const postPaging = useSelector((state) => state.posts.postPaging);
   const currentUser = useSelector((state) => state.user.currentUser);
-  const token = useSelector((state) => state.user.currentUser.token);
   const currentUserPosts = useSelector((state) => state.posts.currentUserPosts);
   const { currPage, pagesize, postList } = postPaging;
   const [isFetching, setIsFetching] = useState(false);

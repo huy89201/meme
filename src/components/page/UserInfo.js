@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Avatar, Button, Paper } from "@material-ui/core";
 import { useForm } from "react-hook-form";
@@ -55,7 +55,7 @@ function UserInfo() {
   const [avatar, setAvatar] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { description, fullname, gender, profilepicture, USERID } = currentUser;
+  const { description, fullname,profilepicture, USERID } = currentUser;
 
   const schema = yup.object().shape({
     gender: yup.string().required(null),
@@ -67,7 +67,6 @@ function UserInfo() {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful },
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -86,6 +85,8 @@ function UserInfo() {
   };
 
   const onSubmit = async (data) => {
+    if(isLoading) return;
+
     setIsLoading(true);
 
     const formData = new FormData();

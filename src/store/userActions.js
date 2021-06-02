@@ -130,3 +130,17 @@ export function logOut() {
     payload: {},
   };
 }
+
+export function changePassword({oldPassword, newPassword,reNewPassword}){
+  return async () => {
+    try {
+      const res = await userService.changePassword({oldPassword, newPassword,reNewPassword});
+      return { 
+        ok : true,
+        message : res.data.message
+       }
+    } catch (error) {
+      return{ error: "Mật khẩu cũ không đúng"}
+    }
+  }
+}

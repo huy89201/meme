@@ -22,8 +22,23 @@ const userService = {
       repassword: repassword,
     });
   },
-  updateInfo(formData){
-    return api.post('/member/update.php',formData);
+  updateInfo(formData) {
+    return api.post("/member/update.php", formData);
+  },
+  getMemberList({ pagesize = 4, currpage = 1 } = {}) {
+    return api.get("/member/getListPaging.php", {
+      params: {
+        pagesize: pagesize,
+        currpage: currpage,
+      },
+    });
+  },
+  changePassword({oldPassword, newPassword,reNewPassword}={}) {
+    return api.post("/member/password.php", {
+      oldPassword: oldPassword,
+      newPassword: newPassword,
+      reNewPassword: reNewPassword,
+    })
   }
 };
 
