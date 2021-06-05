@@ -9,12 +9,17 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
     width: "100vw",
     height: "50vh",
+    backgroundColor: '#081229',
   },
   title: {
     fontSize: "3rem",
+    color: "#ec5990",
   },
   item: {
     padding: "0.5rem",
+    "&:hover" : {
+      color: "#bf1650"
+    }
   },
 }));
 
@@ -42,7 +47,7 @@ function MobileCategories({ isOpenMobileCategories, handleMobileCategories }) {
       open={isOpenMobileCategories}
       onClose={handleMobileCategories}
     >
-      <h1 className={classes.title}>Categories</h1>
+      <h1 className={classes.title}>Danh mục</h1>
       <List onClick={handleMobileCategories}>
         <Grid container>
           {categories.map((item) => (

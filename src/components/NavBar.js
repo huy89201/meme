@@ -1,12 +1,12 @@
 import "../css/navbar.css";
 import React from "react";
-import { Link, useHistory , useLocation} from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Search from "./Search";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import Avatar from "@material-ui/core/Avatar";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import {logOut} from '../store/userActions'
+import { logOut } from "../store/userActions";
 
 import {
   makeStyles,
@@ -14,9 +14,6 @@ import {
   Container,
   useScrollTrigger,
   Slide,
-  List,
-  ListItem,
-  ListItemText,
   Button,
   IconButton,
   MenuList,
@@ -34,17 +31,22 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   appbar: {
-    backgroundColor: "#fff",
+    backgroundColor: "#191d3a",
     padding: "0.5rem 1rem",
   },
   list: {
     display: "flex",
+    alignItems: "center",
     [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
   listText: {
-    color: "black",
+    color: "#ffffff",
+    marginRight: "0.5rem",
+    "&:hover": {
+      color: "#bf1650",
+    }
   },
   AddIcon: {
     fontSize: "3rem",
@@ -71,6 +73,22 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
   },
+  left: {
+    backGroundColor: "#191d3a",
+  },
+  upLoadBtn: {
+    marginRight: "0.5rem",
+    color: "#ff7aa8",
+  },
+  paper : {
+    backgroundColor: '#191d3a',
+  },
+  dropDownItem : {
+    fontWeight: 'bold',
+    "&:hover": {
+      color: "#bf1650"
+    }
+  }
 }));
 
 function HideOnScroll(props) {
@@ -99,7 +117,7 @@ function NavBar({ handleMobileCategories }) {
   };
 
   const handleClose = (event) => {
-    if(!event){
+    if (!event) {
       setOpen(false);
       return;
     }
@@ -111,10 +129,10 @@ function NavBar({ handleMobileCategories }) {
     setOpen(false);
   };
 
-  function handleLogOut(){
+  function handleLogOut() {
     handleClose();
     dispatch(logOut());
-    if(location.pathname !== '/') history.push('/')
+    if (location.pathname !== "/") history.push("/");
   }
 
   return (
@@ -122,20 +140,18 @@ function NavBar({ handleMobileCategories }) {
       <HideOnScroll>
         <AppBar className={classes.appbar}>
           <Container className={classes.container}>
-            <div className="navbar--left">
-              <List className={classes.list}>
-                <ListItem component={Link} to="/">
-                  <ListItemText className={classes.listText} primary="MEME" />
-                </ListItem>
-                <ListItem component={Link} to="/category-tagIndex=">
-                  <Button
-                    className={classes.listText}
-                    onClick={handleMobileCategories}
-                  >
-                    CATEGORY
-                  </Button>
-                </ListItem>
-              </List>
+            <div className="navbar--left" className={classes.left}>
+              <div className={classes.list}>
+                <Link to="/" className={classes.listText}>
+                  MEME
+                </Link>
+                <Button
+                  className={classes.listText}
+                  onClick={handleMobileCategories}
+                >
+                  Danh mục
+                </Button>
+              </div>
             </div>
             <div className="navbar--mid">
               <Search />
@@ -147,7 +163,12 @@ function NavBar({ handleMobileCategories }) {
                 </Link>
               </IconButton>
               <Button className={classes.Button}>
-                <Link to={currentUserId ? "/upload" : "/login"}>up load</Link>
+                <Link
+                  to={currentUserId ? "/upload" : "/login"}
+                  className={classes.upLoadBtn}
+                >
+                  up load
+                </Link>
               </Button>
               {currentUser.token && currentUser.userData ? (
                 <div className={classes.user}>
@@ -184,16 +205,18 @@ function NavBar({ handleMobileCategories }) {
                               : "center bottom",
                         }}
                       >
-                        <Paper>
+                        <Paper className={classes.paper}>
                           <ClickAwayListener onClickAway={handleClose}>
                             <MenuList autoFocusItem={open} id="menu-list-grow">
                               <MenuItem onClick={handleClose}>
-                                <Link to={`/user-info-id=${currentUserId}`}>Xem thông tin</Link>
+                                <Link to={`/user-info-id=${currentUserId}`} className={classes.dropDownItem}>
+                                  Xem thông tin
+                                </Link>
                               </MenuItem>
                               <MenuItem onClick={handleClose}>
-                                <Link to={"/password"}>Đổi mật khẩu</Link>
+                                <Link to={"/password"} className={classes.dropDownItem}>Đổi mật khẩu</Link>
                               </MenuItem>
-                              <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                              <MenuItem onClick={handleLogOut} className={classes.dropDownItem}>Đăng xuất</MenuItem>
                             </MenuList>
                           </ClickAwayListener>
                         </Paper>
@@ -203,7 +226,7 @@ function NavBar({ handleMobileCategories }) {
                 </div>
               ) : (
                 <Button className={classes.Button}>
-                  <Link to="/login">log in</Link>
+                  <Link to="/login">đăng nhập</Link>
                 </Button>
               )}
             </div>

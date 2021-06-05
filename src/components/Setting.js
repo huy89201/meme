@@ -9,16 +9,26 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
     width: "80vw",
     height: "100vh",
+    backgroundColor: "#081229",
   },
   title: {
+    paddingBottom: '1rem',
+    color: "#ec5990",
     fontSize: "3rem",
     marginBottom: "2rem",
+    borderBottom: "3px solid #bf1650"
   },
   item: {
     fontSize: "2rem",
     marginBottom: "1rem",
     fontWeight: "bold",
   },
+  button: {
+    backgroundColor: "#ec5990",
+    "&:hover": {
+      backgroundColor: "#ec5990",
+    },
+  }
 }));
 
 function Setting({ isOpenSetting, handleSetting }) {
@@ -30,11 +40,11 @@ function Setting({ isOpenSetting, handleSetting }) {
 
   function logout(evt) {
     dispatch(logOut());
-    handleSetting(evt); 
+    handleSetting(evt);
   }
 
-  function login(evt){
-    history.push('/login');
+  function login(evt) {
+    history.push("/login");
     handleSetting(evt);
   }
 
@@ -59,12 +69,12 @@ function Setting({ isOpenSetting, handleSetting }) {
           <Link to="/password" onClick={handleSetting} className={classes.item}>
             Đổi mật khẩu
           </Link>
-          <Button color="primary" variant="contained" onClick={logout}>
+          <Button className={classes.button} variant="contained" onClick={logout}>
             Đăng xuất
           </Button>
         </>
       ) : (
-        <Button color="primary" variant="contained" onClick={login}>
+        <Button variant="contained" className={classes.button} onClick={login}>
           Đăng nhập
         </Button>
       )}

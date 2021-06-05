@@ -33,26 +33,38 @@ const useStyles = makeStyles((theme) => ({
   },
   inputRoot: {
     color: "inherit",
+    
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
+    color: "#fff",
+    height: "2rem",
+    boxShadow: "box-shadow: 2px 1px 10px 5px rgba(184, 182, 182, 0.4)",
+    backgroundColor: "#191d3a",
+    border: "2px solid #fff",
+    '&::placeholder': {
+      color: "#fff",
+    },
+    "&:focus": {
+      borderColor: "#ff7aa8",
+    },
     [theme.breakpoints.up("sm")]: {
       width: "20ch",
       "&:focus": {
         width: "25ch",
+        borderColor: "#ff7aa8",
       },
     },
     [theme.breakpoints.down("xs")]: {
       padding: theme.spacing(1),
     },
-    height: "2rem",
-    boxShadow: "box-shadow: 2px 1px 10px 5px rgba(184, 182, 182, 0.4)",
   },
-  fontSize: {
+  icon: {
     fontSize: "30px",
+    zIndex: '99'
   },
 }));
 
@@ -81,7 +93,7 @@ function Search() {
   return (
     <form className={classes.search} onSubmit={handleSubmit}>
       <div className={classes.searchIcon}>
-        <SearchIcon className={classes.fontSize} />
+        <SearchIcon className={classes.icon} />
       </div>
       <InputBase
         placeholder="Search…"
