@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     padding: "0.5rem",
+    color: "#fff",
     "&:hover" : {
       color: "#bf1650"
     }

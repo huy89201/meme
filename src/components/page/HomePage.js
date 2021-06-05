@@ -75,7 +75,6 @@ function HomePage() {
             <PostItem
               key={currentUserPosts[0].PID}
               item={currentUserPosts[0]}
-              isShowComents={false}
             />
           ) : (
             <Typography>ban chua co bai viet nao</Typography>

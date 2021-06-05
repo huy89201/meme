@@ -72,7 +72,11 @@ function UserPage() {
     );
   }, [userId]);
 
+  console.log(currentUser);
+
   const showInfo = (key) => {
+    // if(!currentUser) return;
+
     return userId === currentUser.id ? currentUser.userData[key] : user[key];
   };
 
@@ -82,7 +86,7 @@ function UserPage() {
         <div>
           <div className={classes.header}>
             <Avatar
-              src={showInfo("profilepicture")}
+              src={showInfo(" ")}
               className={classes.avatar}
             />
             <div className={classes.infoWrapper}>

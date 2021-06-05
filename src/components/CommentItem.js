@@ -18,6 +18,21 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "whitesmoke",
     borderRadius: "1rem",
   },
+  content: {
+    backgroundColor: "#191d3a",
+    borderRadius: "1rem",
+    width: "100%",
+    marginLeft: "0.5rem"
+  },
+  name: {
+    fontSize:'1.25rem',
+    marginBottom: '0.5rem',
+    color: "#ccc"
+  },
+  commentContent: {
+    color: "#fff",
+
+  },
 }));
 
 function CommentItem({ comment }) {
@@ -26,7 +41,14 @@ function CommentItem({ comment }) {
   return (
     <Grow in={true}>
       <CardContent className={classes.comment}>
-        <Grid container>
+        <Link to={`/userpageId=${comment.USERID}`}>
+          <Avatar aria-label="recipe" src={comment.profilepicture} />
+        </Link>
+        <CardContent className={classes.content}>
+          <Link to={`/userpageId=${comment.USERID}` } className={classes.name}>{comment.fullname}</Link>
+          <Typography className={classes.commentContent}>{comment.comment}</Typography>
+        </CardContent>
+        {/* <Grid container>
           <Grid item xs={4}>
             <CardHeader
               avatar={
@@ -39,7 +61,7 @@ function CommentItem({ comment }) {
                   {comment.fullname}
                 </Link>
               }
-              subheader={comment.time_added}
+              // subheader={comment.time_added}
             />
           </Grid>
           <Grid item xs={8} className={classes.girdItem}>
@@ -47,7 +69,7 @@ function CommentItem({ comment }) {
               <Typography>{comment.comment}</Typography>
             </CardContent>
           </Grid>
-        </Grid>
+        </Grid> */}
       </CardContent>
     </Grow>
   );

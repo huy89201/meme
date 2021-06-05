@@ -9,16 +9,31 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   form: {
+    border: "2px solid #fff",
     display: "flex",
     borderRadius: "1rem",
-    backgroundColor: "whitesmoke",
+    backgroundColor: "#191d3a",
+    marginBottom: "2rem",
+    "&:focus-within": {
+      borderColor: "#ff7aa8",
+    },
   },
   input: {
     padding: "0.5rem 1rem",
     width: "100%",
+    color: "#fff",
+    fontSize: "1.5rem",
+    "&::placeholder": {
+      color: "#fff",
+    },
+   
   },
   sunbmitIcon: {
     fontSize: "3rem",
+    color: "#fff",
+    "&hover" : {
+      color: "#ff7aa8"
+    }
   },
 }));
 
@@ -42,21 +57,18 @@ function CommentInput({ PID }) {
 
     dispatch(postNewComment(inputValue, PID)).then((res) => {
       setIsLoading(false);
-      if(res.ok){
-        setInputValue('');
+      if (res.ok) {
+        setInputValue("");
         dispatch(getCommentsByPostIdAsync(Number(PID)));
       }
     });
-
   }
-
-  
 
   return (
     <form onSubmit={handleSubmit} className={classes.form}>
       <Input
         type="text"
-        placeholder="write your commnent"
+        placeholder="viết bình luận... "
         disableUnderline={true}
         onChange={handleInput}
         className={classes.input}

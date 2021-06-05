@@ -17,11 +17,19 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 auto",
   },
   icon: {
+    color: "#fff",
     fontSize: "3rem",
   },
+  cardContent: {
+    backgroundColor: "#081229",
+  },
+  error: {
+    color: "#fff",
+    fontWeight: "bold",
+  }
 }));
 
-function PostComments({ PID, isShowComentInput }) {
+function PostComments({ PID}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -35,9 +43,6 @@ function PostComments({ PID, isShowComentInput }) {
     // eslint-disable-next-line
   }, [PID]);
 
-
-
-
   const handleLoadMore = () => {
     if (lastComment > totalComments) return;
     
@@ -45,23 +50,18 @@ function PostComments({ PID, isShowComentInput }) {
   };
 
   return (
-    <CardContent>
-      {isShowComentInput && (currentUser.token ? (
-        <CommentInput PID={PID} />
-      ) : (
-        <Typography>Login to comment</Typography>
-      ))}
+    <div className={classes.cardContent}>
       {currentComments.map((comment) => (
         <CommentItem key={comment.CID} comment={comment} />
       ))}
       {totalComments ? (
         <IconButton className={classes.button} onClick={handleLoadMore}>
-          <ExpandMoreIcon className={classes.icon} />
+          <ExpandMoreIcon className={classes.icon}/>
         </IconButton>
       ) : (
-        <Typography>No comments yet</Typography>
+        <Typography className={classes.error} >Chưa có bình luận nào</Typography>
       )}
-    </CardContent>
+    </div>
   );
 }
 

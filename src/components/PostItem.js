@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import clsx from "clsx";
-import PostComments from "./PostComments";
+import {getUserByIdAsync} from '../store/userActions'
 import { getPostByPostIdAsync } from "../store/postsActions";
 import {
   makeStyles,
@@ -16,22 +14,32 @@ import {
   CardContent,
   Typography,
   CardActions,
-  IconButton,
-  Collapse,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   Card: {
     marginBottom: "1rem",
+    backgroundColor: "#081229",
+    border: "2px solid #516391",
+    "&:hover": {
+      borderColor: "#bf1650",
+    },
   },
   CardMedia: {
     paddingTop: "30rem",
+    borderTop: "2px solid #516391",
+    borderBottom: "2px solid #516391",
+    "&:hover": {
+      borderColor: "#bf1650",
+    },
   },
   ChatBubbleIcon: {
-    color: "#bdbdbd",
+    color: "#ec5990",
+    marginRight: "0.5rem",
   },
   itemStatus: {
     color: "#bdbdbd",
+    fontWeight: "bold",
   },
   expand: {
     transform: "rotate(0deg)",
@@ -43,26 +51,40 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: "rotate(180deg)",
   },
+  title: {
+    fontSize: "1.25rem",
+  },
+  content: {
+    fontWeight: "bold",
+    color: "#ccc",
+  },
 }));
 
-function PostItem({ item, isShowComents = false }) {
+function PostItem({ item }) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(false);
   const userId = useSelector((state) => state.posts.postDetail.post.USERID);
+  const cmt = useSelector((state) => state.comments.comments);
+  const userDetails = useSelector((state) => state.user.user);
 
   useEffect(() => {
-    dispatch(getPostByPostIdAsync(item.PID))
+    dispatch(getPostByPostIdAsync(item.PID));
     // eslint-disable-next-line
   }, []);
 
-  if (!item) return;
+  useEffect(() => {
+    dispatch(getUserByIdAsync(Number(userId)));
+  },[])
+
+  
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  // console.log(userId)
+
+  // console.log(item.USERID, userId); 
 
   return (
     <Grow in={true}>
@@ -70,16 +92,23 @@ function PostItem({ item, isShowComents = false }) {
         <CardHeader
           avatar={
             <Link to={`/userpageId=${item.USERID || userId}`}>
-              <Avatar aria-label="recipe" src={item.profilepicture} />
+              <Avatar aria-label="recipe" src={item.profilepicture || userDetails.profilepicture} />
             </Link>
           }
           title={
-            <Link to={`/userpageId==${item.USERID || userId}`}>{item.fullname}</Link>
+            <Link
+              to={`/userpageId==${item.USERID || userId}`}
+              className={classes.title}
+            >
+              {item.fullname || userDetails.fullname}
+            </Link>
           }
-          subheader={item.time_added}
+          // subheader={item.time_added}
         />
         <CardContent>
-          <Typography component="p">{item.post_content}</Typography>
+          <Typography component="p" className={classes.content}>
+            {item.post_content}
+          </Typography>
         </CardContent>
         <CardMedia
           image={
@@ -92,25 +121,8 @@ function PostItem({ item, isShowComents = false }) {
         />
         <CardActions disableSpacing>
           <ChatBubbleIcon className={classes.ChatBubbleIcon} />
-          <Typography className={classes.itemStatus}>{item.count}</Typography>
-          {isShowComents && (
-            <IconButton
-              className={clsx(classes.expand, {
-                [classes.expandOpen]: expanded,
-              })}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon fontSize="large" />
-            </IconButton>
-          )}
+          <Typography className={classes.itemStatus}>{item.count || cmt.length}</Typography>
         </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          {isShowComents && (
-            <PostComments PID={item.PID} isShowComentInput={true} />
-          )}
-        </Collapse>
       </Card>
     </Grow>
   );

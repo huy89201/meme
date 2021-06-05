@@ -85,6 +85,7 @@ const useStyles = makeStyles((theme) => ({
   },
   dropDownItem : {
     fontWeight: 'bold',
+    color: "#fff",
     "&:hover": {
       color: "#bf1650"
     }
@@ -186,7 +187,7 @@ function NavBar({ handleMobileCategories }) {
                     aria-haspopup="true"
                     onClick={handleToggle}
                   >
-                    <ExpandMoreIcon />
+                    <ExpandMoreIcon style={{color: '#fff'}} />
                   </IconButton>
                   <Popper
                     open={open}

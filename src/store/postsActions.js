@@ -88,7 +88,7 @@ export function getPostsByUserIdAsync(userId) {
       const posts = res.data.posts;
 
       dispatch(getPostsByUserId(posts));
-      return {ok : true};
+      return { ok: true };
     } catch (error) {
       console.log("loi ne: " + error);
     }
@@ -107,7 +107,7 @@ export function getPostsByQueryStringAsync(queryString) {
     try {
       const res = await postsService.getPostsByQueryString(queryString);
       dispatch(getPostsByQueryString(res.data.posts));
-      
+
       return { ok: true };
     } catch (error) {}
   };
