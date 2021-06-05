@@ -1,10 +1,12 @@
 import "../css/navbar.css";
 import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useHistory , useLocation} from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Search from "./Search";
 import AddBoxOutlinedIcon from "@material-ui/icons/AddBoxOutlined";
 import Avatar from "@material-ui/core/Avatar";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import {logOut} from '../store/userActions'
 
 import {
   makeStyles,
@@ -17,6 +19,12 @@ import {
   ListItemText,
   Button,
   IconButton,
+  MenuList,
+  MenuItem,
+  Paper,
+  ClickAwayListener,
+  Grow,
+  Popper,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   Avatar: {
     marginRight: "0.5rem",
   },
-  user : {
+  user: {
     display: "flex",
     alignItems: "center",
     [theme.breakpoints.down("sm")]: {
@@ -62,8 +70,7 @@ const useStyles = makeStyles((theme) => ({
   right: {
     display: "flex",
     alignItems: "center",
-    
-  }
+  },
 }));
 
 function HideOnScroll(props) {
@@ -78,9 +85,37 @@ function HideOnScroll(props) {
 
 function NavBar({ handleMobileCategories }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
   const currentUser = useSelector((state) => state.user.currentUser);
   const currentUserId = useSelector((state) => state.user.currentUser.id);
-  // const currentUserId = localStorage.getItem("id")
+
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if(!event){
+      setOpen(false);
+      return;
+    }
+
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleLogOut(){
+    handleClose();
+    dispatch(logOut());
+    if(location.pathname !== '/') history.push('/')
+  }
 
   return (
     <div className="navbar--wrapper">
@@ -93,7 +128,12 @@ function NavBar({ handleMobileCategories }) {
                   <ListItemText className={classes.listText} primary="MEME" />
                 </ListItem>
                 <ListItem component={Link} to="/category-tagIndex=">
-                  <Button className={classes.listText} onClick={handleMobileCategories}>CATEGORY</Button>
+                  <Button
+                    className={classes.listText}
+                    onClick={handleMobileCategories}
+                  >
+                    CATEGORY
+                  </Button>
                 </ListItem>
               </List>
             </div>
@@ -102,12 +142,12 @@ function NavBar({ handleMobileCategories }) {
             </div>
             <div className={classes.right}>
               <IconButton>
-                <Link to={currentUserId ? '/upload' : '/login'}>
+                <Link to={currentUserId ? "/upload" : "/login"}>
                   <AddBoxOutlinedIcon className={classes.AddIcon} />
                 </Link>
               </IconButton>
               <Button className={classes.Button}>
-                <Link to={currentUserId ? '/upload' : '/login'}>up load</Link>
+                <Link to={currentUserId ? "/upload" : "/login"}>up load</Link>
               </Button>
               {currentUser.token && currentUser.userData ? (
                 <div className={classes.user}>
@@ -119,6 +159,47 @@ function NavBar({ handleMobileCategories }) {
                   <Link to={`/userpageId=${currentUser.id}`}>
                     {currentUser.userData.fullname}
                   </Link>
+                  <IconButton
+                    ref={anchorRef}
+                    aria-controls={open ? "menu-list-grow" : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                  >
+                    <ExpandMoreIcon />
+                  </IconButton>
+                  <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === "bottom"
+                              ? "center top"
+                              : "center bottom",
+                        }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleClose}>
+                            <MenuList autoFocusItem={open} id="menu-list-grow">
+                              <MenuItem onClick={handleClose}>
+                                <Link to={`/user-info-id=${currentUserId}`}>Xem thông tin</Link>
+                              </MenuItem>
+                              <MenuItem onClick={handleClose}>
+                                <Link to={"/password"}>Đổi mật khẩu</Link>
+                              </MenuItem>
+                              <MenuItem onClick={handleLogOut}>Logout</MenuItem>
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
                 </div>
               ) : (
                 <Button className={classes.Button}>

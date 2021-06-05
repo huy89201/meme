@@ -2,7 +2,7 @@ import userService from "../service/userService";
 
 export const ACT_GET_USER_BY_ID = "GET_USER_BY_ID";
 export const ACT_GET_CURRENT_USER = "ACT_GET_CURRENT_USER";
-export const ACT_LOGOUT = "ACT_LOGOUT";
+export const ACT_LOG_OUT = "ACT_LOG_OUT";
 export const ACT_SET_TOKEN = "ACT_SET_TOKEN";
 export const ACT_SET_ID = "ACT_SET_ID";
 
@@ -126,7 +126,7 @@ export function logOut() {
   localStorage.removeItem("token");
   localStorage.removeItem("id");
   return {
-    type: ACT_LOGOUT,
+    type: ACT_LOG_OUT,
     payload: {},
   };
 }

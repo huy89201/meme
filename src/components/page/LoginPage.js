@@ -89,6 +89,7 @@ function LoginPage() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
@@ -103,8 +104,8 @@ function LoginPage() {
 
     await dispatch(loginAsync(data)).then((res) => {
       if (res.ok) history.push('./');
-
-      setIsLoading(true);
+      reset();
+      setIsLoading(false);
     });
   };
 

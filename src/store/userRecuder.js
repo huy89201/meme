@@ -1,7 +1,7 @@
 import {
   ACT_GET_USER_BY_ID,
   ACT_GET_CURRENT_USER,
-  ACT_LOGOUT,
+  ACT_LOG_OUT,
   ACT_SET_TOKEN,
   ACT_SET_ID,
 } from "./userActions";
@@ -48,11 +48,10 @@ export default function userRecuder(state = initState, actions) {
         },
       };
 
-    case ACT_LOGOUT:
+    case ACT_LOG_OUT:
       return {
         ...state,
         currentUser: {
-          isLogin: false,
           token: "",
           id: "",
           userData: {},

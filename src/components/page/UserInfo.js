@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { makeStyles, Avatar, Button, Paper } from "@material-ui/core";
 import { useForm } from "react-hook-form";
@@ -55,7 +55,7 @@ function UserInfo() {
   const [avatar, setAvatar] = useState();
   const [isLoading, setIsLoading] = useState(false);
 
-  const { description, fullname,profilepicture, USERID } = currentUser;
+  const { description, fullname, profilepicture, USERID } = currentUser;
 
   const schema = yup.object().shape({
     gender: yup.string().required(null),
@@ -63,11 +63,7 @@ function UserInfo() {
     fullname: yup.string().required(null),
   });
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     resolver: yupResolver(schema),
   });
 
@@ -77,6 +73,8 @@ function UserInfo() {
 
     setAvatar(file);
 
+    if (!file) return;
+
     reader.readAsDataURL(file);
 
     reader.onload = (evt) => {
@@ -85,7 +83,7 @@ function UserInfo() {
   };
 
   const onSubmit = async (data) => {
-    if(isLoading) return;
+    if (isLoading) return;
 
     setIsLoading(true);
 

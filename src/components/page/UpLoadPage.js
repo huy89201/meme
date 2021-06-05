@@ -131,6 +131,7 @@ function UpLoadPage() {
           category: [],
         });
         setError("");
+        setPreviewImg("");
         setIsLoading(false);
         dispatch(resetChecked());
         dispatch(getNewPostsAsync());

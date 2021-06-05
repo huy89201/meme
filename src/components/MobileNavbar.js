@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function MobileNavbar({handleMobileCategories}) {
+function MobileNavbar({handleMobileCategories, handleSetting}) {
   const classes = useStyles();
 
   const currentUserId = localStorage.getItem("id")
@@ -44,7 +44,7 @@ function MobileNavbar({handleMobileCategories}) {
               <AccountCircleIcon className={classes.Icon} />
             </Link>
           </IconButton>
-          <IconButton>
+          <IconButton onClick={handleSetting}>
             <SettingsIcon className={classes.Icon}/>
           </IconButton>
         </Toolbar>

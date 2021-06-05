@@ -91,9 +91,11 @@ function UserPage() {
                 {showInfo("description")}
               </div>
               <div className={classes.subInfo}>
-                <div className={classes.subInfoItem}>
-                  Bài viết {currentUserPosts.length}
-                </div>
+                {currentUserPosts.length && (
+                  <div className={classes.subInfoItem}>
+                    Bài viết {currentUserPosts.length}
+                  </div>
+                )}
                 <div className={classes.subInfoItem}>
                   Người theo dõi {showInfo("yourviewed")}
                 </div>

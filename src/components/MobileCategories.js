@@ -45,7 +45,7 @@ function MobileCategories({ isOpenMobileCategories, handleMobileCategories }) {
       <h1 className={classes.title}>Categories</h1>
       <List onClick={handleMobileCategories}>
         <Grid container>
-          {categories.map((item, index) => (
+          {categories.map((item) => (
             <Grid item xs={4} key={item.key}>
               <p
                 className={classes.item}

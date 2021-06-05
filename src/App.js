@@ -11,13 +11,14 @@ import PostDetailPage from "./components/page/PostDetailPage";
 import UserPage from "./components/page/UserPage";
 import RegisterPage from "./components/page/RegisterPage";
 import SearchPage from "./components/page/SearchPage";
-import UpdatePassWord from './components/page/UpdatePassWord'
+import UpdatePassWord from "./components/page/UpdatePassWord";
 import NavBar from "./components/NavBar";
 import MobileNavbar from "./components/MobileNavbar";
-import UserInfo from './components/page/UserInfo'
+import UserInfo from "./components/page/UserInfo";
 import { setToken, getCurrentUserAsync, setId } from "./store/userActions";
 import { getCategoriesAsync } from "./store/categoriesAction";
 import MobileCategories from "./components/MobileCategories";
+import Setting from "./components/Setting";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,6 +34,7 @@ function App() {
   const userId = localStorage.getItem("id");
   const categories = useSelector((state) => state.categories.categories);
   const [isOpenMobileCategories, setIsOpenMobileCategories] = useState(false);
+  const [isOpenSetting, setIsOpenSetting] = useState(false);
   // const currentUserId = useSelector((state) => state.user.currentUser.id)
 
   function handleMobileCategories(evt) {
@@ -43,16 +45,20 @@ function App() {
     setIsOpenMobileCategories(!isOpenMobileCategories);
   }
 
+  function handleSetting(evt) {
+    if (evt.type === "keydown" && (evt.key === "Tab" || evt.key === "Shift")) {
+      return;
+    }
+
+    setIsOpenSetting(!isOpenSetting);
+  }
+
   useEffect(() => {
     dispatch(getCurrentUserAsync(userId));
     dispatch(setToken(token));
     dispatch(setId(userId));
     // eslint-disable-next-line
   }, []);
-
-  // useEffect(() => {
-  //   dispatch(getCurrentUserAsync(currentUserId));
-  // }, [currentUserId]);
 
   useEffect(() => {
     if (categories.length) return;
@@ -91,7 +97,7 @@ function App() {
               <UserInfo />
             </Route>
             <Route path="/password">
-              <UpdatePassWord/>
+              <UpdatePassWord />
             </Route>
             <Route path="/">
               <HomePage />
@@ -102,7 +108,14 @@ function App() {
           isOpenMobileCategories={isOpenMobileCategories}
           handleMobileCategories={handleMobileCategories}
         />
-        <MobileNavbar handleMobileCategories={handleMobileCategories} />
+        <Setting
+          isOpenSetting={isOpenSetting}
+          handleSetting={handleSetting}
+        />
+        <MobileNavbar
+          handleMobileCategories={handleMobileCategories}
+          handleSetting={handleSetting}
+        />
       </Router>
     </div>
   );
