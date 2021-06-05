@@ -48,28 +48,6 @@ function CommentItem({ comment }) {
           <Link to={`/userpageId=${comment.USERID}` } className={classes.name}>{comment.fullname}</Link>
           <Typography className={classes.commentContent}>{comment.comment}</Typography>
         </CardContent>
-        {/* <Grid container>
-          <Grid item xs={4}>
-            <CardHeader
-              avatar={
-                <Link to={`/userpageId=${comment.USERID}`}>
-                  <Avatar aria-label="recipe" src={comment.profilepicture} />
-                </Link>
-              }
-              title={
-                <Link to={`/userpageId=${comment.USERID}`}>
-                  {comment.fullname}
-                </Link>
-              }
-              // subheader={comment.time_added}
-            />
-          </Grid>
-          <Grid item xs={8} className={classes.girdItem}>
-            <CardContent>
-              <Typography>{comment.comment}</Typography>
-            </CardContent>
-          </Grid>
-        </Grid> */}
       </CardContent>
     </Grow>
   );

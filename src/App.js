@@ -23,7 +23,7 @@ import Setting from "./components/Setting";
 const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: "6rem",
-    marginBottom: "4rem",
+    marginBottom: "6rem",
   },
 }));
 

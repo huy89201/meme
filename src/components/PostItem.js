@@ -97,7 +97,7 @@ function PostItem({ item }) {
           }
           title={
             <Link
-              to={`/userpageId==${item.USERID || userId}`}
+              to={`/userpageId=${item.USERID || userId}`}
               className={classes.title}
             >
               {item.fullname || userDetails.fullname}
