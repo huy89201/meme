@@ -15,58 +15,73 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: "6rem",
-    marginBottom: "4rem",
-    padding: "0.5rem 1rem",
-    backgroundColor: "#ffffff",
-    height: "100vh",
-    display: "flex",
-    alignItems: "center",
-  },
   paper: {
     width: "50%",
-    backgroundColor: "whitesmoke",
+    backgroundColor: "#191d3a",
     padding: "2rem",
     margin: "0 auto",
-    [theme.breakpoints.down("xs")]: {
+    [theme.breakpoints.down("777")]: {
       width: "100%",
     },
   },
   SubmitButton: {
     backgroundColor: "#ec5990",
+    display: "block",
+    marginBottom: "1rem",
     "&:hover": {
       backgroundColor: "#ec5990",
     },
-    marginRight: "1rem",
   },
   registerLink: {
-    color: "#ffff",
+    color: "#bf1650",
   },
   title: {
     padding: "0.5rem 1rem",
     fontWeight: "bold",
     fontSize: "4rem",
     textAlign: "center",
+    color: "#ec5990",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "3rem",
+    },
+    [theme.breakpoints.down("413")]: {
+      fontSize: "2rem",
+    },
+    [theme.breakpoints.down("329")]: {
+      fontSize: "1.25rem",
+    },
   },
   input: {
     marginTop: "0.5rem",
     marginBottom: "0.5rem",
     padding: "0.5rem 1rem",
-    backgroundColor: "#d5d5d5",
+    backgroundColor: "#1e2a4a",
+    color: "#fff",
     width: "100%",
     borderRadius: "1rem",
-    border: "none",
+    border: "2px solid #fff",
     "&:focus": {
       outline: "none",
+      borderColor: "#ff7aa8",
+    },
+    "&::placeholder": {
+      color: "#4f6294",
     },
   },
   label: {
+    color: "#fff",
+    fontWeight: "bold",
     paddingTop: "0.5rem",
   },
   error: {
-    padding: "0.5rem"
-  }
+    padding: "0.5rem",
+    color: "#bf1650",
+  },
+  question: {
+    display: "inline-block",
+    color: "#fff",
+    marginRight: "0.5rem",
+  },
 }));
 
 function LoginPage() {
@@ -74,16 +89,16 @@ function LoginPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const isLogin = useSelector((state) => state.user.currentUser.token)
+  const isLogin = useSelector((state) => state.user.currentUser.token);
   const schema = yup.object().shape({
     email: yup
       .string()
-      .required("email is required")
-      .email("email is not same pattern"),
+      .required("ô này không được trống")
+      .email("tài khoản không đúng định dạng"),
     password: yup
       .string()
-      .required("password is required")
-      .min(6, "password has least 6 characters"),
+      .required("ô này không được trống")
+      .min(6, "mật khẩu ít nhất 6 ký tự"),
   });
 
   const {
@@ -95,60 +110,59 @@ function LoginPage() {
     resolver: yupResolver(schema),
   });
 
-  if(isLogin) history.push('./');
+  if (isLogin) history.push("./");
 
   const onSubmit = async (data) => {
-    if(isLoading) return;
-    
+    if (isLoading) return;
+
     setIsLoading(true);
 
     await dispatch(loginAsync(data)).then((res) => {
-      if (res.ok) history.push('./');
+      if (res.ok) history.push("./");
       reset();
       setIsLoading(false);
     });
   };
 
   return (
-    <div className="login--page--wrapper">
-      <Container className={classes.container}>
-        <Paper elevation={3} className={classes.paper}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Typography className={classes.title}>Login</Typography>
-            <InputLabel className={classes.label}>Email</InputLabel>
-            <input
-              className={classes.input}
-              placeholder="Email or phone number"
-              type="email"
-              {...register("email")}
-            />
-            {errors.email?.message && <p className={classes.error}>{errors.email?.message}</p>}
-            <InputLabel className={classes.label}>Password</InputLabel>
-            <input
-              className={classes.input}
-              placeholder="Password"
-              type="password"
-              {...register("password")}
-            />
-            {errors.password?.message && <p className={classes.error}>{errors.password?.message}</p>}
+    <Paper elevation={3} className={classes.paper}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Typography className={classes.title}>Đăng Nhập</Typography>
+        <InputLabel className={classes.label}>Tên đăng nhập</InputLabel>
+        <input
+          className={classes.input}
+          placeholder="email của bạn..."
+          type="email"
+          {...register("email")}
+        />
+        {errors.email?.message && (
+          <p className={classes.error}>{errors.email?.message}</p>
+        )}
+        <InputLabel className={classes.label}>Mật khẩu</InputLabel>
+        <input
+          className={classes.input}
+          placeholder="mật khảu 6 kí tự"
+          type="password"
+          {...register("password")}
+        />
+        {errors.password?.message && (
+          <p className={classes.error}>{errors.password?.message}</p>
+        )}
 
-            <Button
-              color="primary"
-              variant="contained"
-              className={classes.SubmitButton}
-              onClick={handleSubmit(onSubmit)}
-            >
-              submit
-            </Button>
-            <Button color="primary" variant="contained">
-              <Link to="/register" className={classes.registerLink}>
-                register
-              </Link>
-            </Button>
-          </form>
-        </Paper>
-      </Container>
-    </div>
+        <Button
+          color="primary"
+          variant="contained"
+          className={classes.SubmitButton}
+          onClick={handleSubmit(onSubmit)}
+        >
+          đăng nhập
+        </Button>
+        <p className={classes.question}>Bạn chưa có tài khoản ?</p>
+        <Link to="/register" className={classes.registerLink}>
+          đăng ký
+        </Link>
+      </form>
+    </Paper>
   );
 }
 
