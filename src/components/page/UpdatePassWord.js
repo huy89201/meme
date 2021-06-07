@@ -15,7 +15,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   paper: {
     width: "50%",
-    backgroundColor: "whitesmoke",
+    backgroundColor: "#191d3a",
     padding: "2rem",
     margin: "0 auto",
     [theme.breakpoints.down("xs")]: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "#ec5990",
     },
-    marginRight: "1rem",
+    marginTop: "1rem",
   },
   registerLink: {
     color: "#ffff",
@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: "bold",
     fontSize: "4rem",
     textAlign: "center",
+    color: "#ec5990",
     [theme.breakpoints.down("sm")]: {
       fontSize: "2.5rem",
     },
@@ -48,27 +49,36 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "0.5rem",
     marginBottom: "0.5rem",
     padding: "0.5rem 1rem",
-    backgroundColor: "#d5d5d5",
+    backgroundColor: "#1e2a4a",
+    color: "#fff",
     width: "100%",
     borderRadius: "1rem",
-    border: "none",
+    border: "2px solid #fff",
     "&:focus": {
       outline: "none",
+      borderColor: "#ff7aa8",
+    },
+    "&::placeholder": {
+      color: "#4f6294",
     },
   },
   label: {
     paddingTop: "0.5rem",
+    color: "#fff",
+    fontWeight: "bold",
   },
   error: {
     padding: "0.5rem",
+    color: "#bf1650",
   },
   space: {
     height: "1rem",
     marginBottom: "0.5rem",
   },
-  error: {
-    marginBottom: "0.5rem",
-  },
+  errorAsync: {
+    padding: "0.5rem",
+    color: "#ff7aa8",
+  }
 }));
 
 function UpdatePassWord() {
@@ -80,17 +90,17 @@ function UpdatePassWord() {
   const schema = yup.object().shape({
     oldPassword: yup
       .string()
-      .required("this field is required")
+      .required("ô này không được trống")
       .min(6, "atleast 6 characters"),
     newPassword: yup
       .string()
-      .required("this field is required")
+      .required("ô này không được trống")
       .min(6, "atleast 6 characters"),
     reNewPassword: yup
       .string()
-      .required("this field is required")
-      .min(6, "atleast 6 characters")
-      .oneOf([yup.ref("newPassword"), null], "Passwords must match"),
+      .required("ô này không được trống")
+      .min(6, "mật khẩu ít nhất 6 ký tự")
+      .oneOf([yup.ref("newPassword"), null], "mật khẩu không trùng"),
   });
 
   const {
@@ -122,45 +132,45 @@ function UpdatePassWord() {
     <div>
       <Paper elevation={3} className={classes.paper}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Typography className={classes.title}>Change PassWord</Typography>
-          <InputLabel className={classes.label}>Old Password</InputLabel>
+          <Typography className={classes.title}>Đổi Mật Khẩu</Typography>
+          <InputLabel className={classes.label}>Mật khẩu cũ</InputLabel>
           <input
             className={classes.input}
-            placeholder="your password"
+            placeholder="nhập mật khẩu..."
             type="password"
             {...register("oldPassword")}
           />
           {errors.oldPassword?.message && (
             <p className={classes.error}>{errors.oldPassword?.message}</p>
           )}
-          <InputLabel className={classes.label}>New Password</InputLabel>
+          <InputLabel className={classes.label}>Mật khẩu mới</InputLabel>
           <input
             className={classes.input}
-            placeholder="your new password"
+            placeholder="nhập mật khẩu mới..."
             type="password"
             {...register("newPassword")}
           />
           {errors.newPassword?.message && (
             <p className={classes.error}>{errors.newPassword?.message}</p>
           )}
-          <InputLabel className={classes.label}>Confirm Password</InputLabel>
+          <InputLabel className={classes.label}>Xác nhận mật khẩu</InputLabel>
           <input
             className={classes.input}
-            placeholder="confirm your new password"
+            placeholder="Nhập lại mật khẩu mới"
             type="password"
             {...register("reNewPassword")}
           />
           {errors.reNewPassword?.message && (
             <p className={classes.error}>{errors.reNewPassword?.message}</p>
           )}
-          {errorAsync && <p className={classes.error}>{errorAsync}</p>}
+          {errorAsync && <p className={classes.errorAsync}>{errorAsync}</p>}
           <Button
             color="primary"
             variant="contained"
             className={classes.SubmitButton}
             onClick={handleSubmit(onSubmit)}
           >
-            submit
+            xác nhận
           </Button>
         </form>
       </Paper>
