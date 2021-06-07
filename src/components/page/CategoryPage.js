@@ -25,6 +25,17 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
+  submitBtn: {
+    margin: '1rem 0',
+    backgroundColor: "#ec5990",
+    display: "block",
+    marginBottom: "1rem",
+    transiiton: "all 0.4s",
+    "&:hover": {
+      backgroundColor: "#fff",
+      color: "#ec5990"
+    },
+  }
 }));
 
 function CategoryPage() {
@@ -95,8 +106,8 @@ function CategoryPage() {
             />
           ))}
         </Grid>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          let's gooo
+        <Button variant="contained" color="primary" onClick={handleSubmit} className={classes.submitBtn}>
+          tìm kiếm
         </Button>
       </div>
       <InfiniteScroll

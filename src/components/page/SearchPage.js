@@ -5,7 +5,11 @@ import { getPostsByQueryStringAsync } from "../../store/postsActions";
 import { useParams } from "react-router-dom";
 import PostItem from "../PostItem";
 const useStyles = makeStyles((theme) => ({
- 
+  title: {
+    color: "#fff",
+    fontSize: '1.5rem',
+    marginBottom: "1rem"
+  }
 }));
 
 function SearchPage() {
@@ -28,7 +32,7 @@ function SearchPage() {
     <Grid container>
       <Grid item xs={12}>
         {isLoading || (
-          <h1>
+          <h1 className={classes.title}>
             co {posts.length} ket qua cho "{params.querySting}"{" "}
           </h1>
         )}

@@ -8,30 +8,52 @@ import { checked, resetChecked } from "../../store/categoriesAction";
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: "1rem",
+    backgroundColor: "#191d3a",
+    borderRadius: "1rem",
+    border: "2px solid #516391",
   },
   input: {
     width: "100%",
     padding: "0.5rem 1rem",
+    marginBottom: "1rem",
+    backgroundColor: "#1e2a4a",
+    color: "#fff",
+    width: "100%",
     borderRadius: "1rem",
+    border: "2px solid #fff",
     "&:focus": {
       outline: "none",
+      borderColor: "#ff7aa8",
     },
-    marginBottom: "1rem",
+    "&::placeholder": {
+      color: "#fff",
+    },
   },
   textarea: {
     width: "100%",
     height: "10rem",
     padding: "0.5rem 1rem",
     borderRadius: "1rem",
+    marginBottom: "1rem",
+    backgroundColor: "#1e2a4a",
+    color: "#fff",
+    width: "100%",
+    borderRadius: "1rem",
+    border: "2px solid #fff",
     "&:focus": {
       outline: "none",
+      borderColor: "#ff7aa8",
     },
-    marginBottom: "1rem",
+    "&::placeholder": {
+      color: "#fff",
+    },
   },
   img: {
     width: "100%",
     height: "30rem",
     marginBottom: "1rem",
+    borderRadius: "1rem",
+    border: "3px solid #fff",
   },
   gifBtn: {
     marginLeft: "1rem",
@@ -41,10 +63,30 @@ const useStyles = makeStyles((theme) => ({
   },
   upLoadBtn: {
     width: "100%",
+    backgroundColor: "#ec5990",
     marginBottom: "1rem",
+    color: "#fff",
+    "&:hover" : {
+      backgroundColor: "#bf1650",
+    }
   },
   none: {
     display: "none",
+  },
+  title: {
+    color: "#ec5990",
+    fontSize: '3rem', 
+    marginBottom: "1rem",
+  },
+  fileBtn: {
+    backgroundColor: "#ec5990",
+    display: "block",
+    marginBottom: "0.25rem",
+    color:"#fff",
+    display: "inline-block",
+    "&:hover": {
+      backgroundColor: "#ec5990",
+    },
   },
 }));
 
@@ -109,7 +151,7 @@ function UpLoadPage() {
 
   async function handleSubmit(evt) {
     evt.preventDefault();
-    
+
     if (isLoading) return;
     if (!postData.post_content || !postData.category.length) return;
 
@@ -153,13 +195,13 @@ function UpLoadPage() {
           <form onSubmit={handleSubmit}>
             <input
               className={classes.input}
-              placeholder="https"
+              placeholder="dán link vô đây"
               value={postData.url_image}
               onChange={handleLinkImg}
             />
             <textarea
               className={classes.textarea}
-              placeholder="description"
+              placeholder="viết mô tả..."
               value={postData.post_content}
               onChange={(evt) =>
                 setPostData({ ...postData, post_content: evt.target.value })
@@ -179,8 +221,8 @@ function UpLoadPage() {
               onChange={handleImage}
             />
             <label htmlFor="contained-button-file">
-              <Button variant="contained" color="primary" component="span">
-                from device
+              <Button component="span" className={classes.fileBtn}>
+                từ máy tính
               </Button>
             </label>
 
@@ -192,13 +234,13 @@ function UpLoadPage() {
               href="https://giphy.com/"
               target="_blank"
             >
-              from gif
+              từ web
             </Button>
           </form>
         </Paper>
       </Grid>
       <Grid item sm={5} xs={12} className={classes.girdItem}>
-        <p style={{ marginBottom: "1rem", fontSize: "1.25rem" }}>categories:</p>
+        <p className={classes.title}>Chọn danh mục:</p>
         <Grid container style={{ marginBottom: "1rem" }}>
           {categories.map((item) => (
             <CategoriesItem
@@ -211,8 +253,6 @@ function UpLoadPage() {
           ))}
         </Grid>
         <Button
-          variant="contained"
-          color="primary"
           className={classes.upLoadBtn}
           onClick={handleSubmit}
         >
