@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { loginAsync } from "../../store/userActions";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { loginAsync } from "../../store/userActions";
 import {
-  Container,
   makeStyles,
   Paper,
   Typography,
@@ -89,7 +88,8 @@ function LoginPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const isLogin = useSelector((state) => state.user.currentUser.token);
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const { token} = currentUser;
   const schema = yup.object().shape({
     email: yup
       .string()
@@ -110,7 +110,7 @@ function LoginPage() {
     resolver: yupResolver(schema),
   });
 
-  if (isLogin) history.push("./");
+  if (token) history.push("./");
 
   const onSubmit = async (data) => {
     if (isLoading) return;
@@ -118,10 +118,12 @@ function LoginPage() {
     setIsLoading(true);
 
     await dispatch(loginAsync(data)).then((res) => {
-      if (res.ok) history.push("./");
-      reset();
-      setIsLoading(false);
+      if (res.ok) {
+        history.push("./");
+      }
     });
+    reset();
+    setIsLoading(false);
   };
 
   return (

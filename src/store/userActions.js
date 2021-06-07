@@ -63,6 +63,7 @@ export function getCurrentUserAsync(id) {
       const user = res.data.user;
 
       dispatch(getCurrentUser(user));
+      return { ok: true}
     } catch (error) {}
   };
 }

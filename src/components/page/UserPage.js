@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     width: "8rem",
     height: "8rem",
+    border: "4px solid #4f6294",
   },
   header: {
     display: "flex",
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   name: {
     fontSize: "1.5rem",
     marginBottom: "0.5rem",
+    color: "#fff",
     [theme.breakpoints.down("541")]: {
       textAlign: "center",
     },
@@ -34,9 +36,11 @@ const useStyles = makeStyles((theme) => ({
   description: {
     marginTop: "2rem",
     marginBottom: "2rem",
+    color: "#fff",
   },
   subInfoItem: {
     marginRight: "0.5rem",
+    color: "#fff",
     [theme.breakpoints.down("509")]: {
       fontSize: "0.75rem",
     },
@@ -72,9 +76,12 @@ function UserPage() {
     );
   }, [userId]);
 
+  console.log(user)
+
   const showInfo = (key) => {
 
     return userId === currentUser.id ? currentUser.userData[key] : user[key];
+    // return user[key];
   };
 
   return (

@@ -67,6 +67,7 @@ function PostItem({ item }) {
   const userId = useSelector((state) => state.posts.postDetail.post.USERID);
   const cmt = useSelector((state) => state.comments.comments);
   const userDetails = useSelector((state) => state.user.user);
+  const token = useSelector((state) => state.user.currentUser.token)
 
   useEffect(() => {
     dispatch(getPostByPostIdAsync(item.PID));
@@ -91,13 +92,13 @@ function PostItem({ item }) {
       <Card className={classes.Card}>
         <CardHeader
           avatar={
-            <Link to={`/userpageId=${item.USERID || userId}`}>
+            <Link to={ token ? `/userpageId=${item.USERID || userId}` : '/login'}>
               <Avatar aria-label="recipe" src={item.profilepicture || userDetails.profilepicture} />
             </Link>
           }
           title={
             <Link
-              to={`/userpageId=${item.USERID || userId}`}
+              to={ token ? `/userpageId=${item.USERID || userId}` : '/login'}
               className={classes.title}
             >
               {item.fullname || userDetails.fullname}

@@ -36,8 +36,10 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
+    if(!currentUser.token) return;
+    
     dispatch(getPostsByUserIdAsync(Number(currentUser.id)));
-  }, [currentUser.id]);
+  }, [currentUser.token]);
 
   const fetchMoreData = async () => {
     if (isFetching) return;
