@@ -8,8 +8,7 @@ import { updateInfo, getCurrentUserAsync } from "../../store/userActions";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    // width: "70%",
-    backgroundColor: "whitesmoke",
+    backgroundColor: "#191d3a",
     padding: "2rem",
     margin: "0 auto",
     display: "flex",
@@ -25,25 +24,65 @@ const useStyles = makeStyles((theme) => ({
     width: "10rem",
     height: "10rem",
     margin: "0 auto 1rem auto",
+    border: "4px solid #4f6294",
   },
   fullname: {
-    display: "block",
     width: "100%",
     marginBottom: "1rem",
+    padding: "0.5rem 1rem",
+    backgroundColor: "#1e2a4a",
+    color: "#fff",
+    width: "100%",
+    borderRadius: "1rem",
+    border: "2px solid #fff",
+    "&:focus": {
+      outline: "none",
+      borderColor: "#ff7aa8",
+    },
+    "&::placeholder": {
+      color: "#fff",
+    },
   },
   description: {
-    display: "block",
     width: "100%",
     height: "8rem",
     padding: "1rem",
     marginBottom: "1rem",
+    backgroundColor: "#1e2a4a",
+    color: "#fff",
+    width: "100%",
+    borderRadius: "1rem",
+    border: "2px solid #fff",
+    "&:focus": {
+      outline: "none",
+      borderColor: "#ff7aa8",
+    },
+    "&::placeholder": {
+      color: "#fff",
+    },
   },
   gender: {
     display: "block",
     outline: "none",
-    border: "none",
-    backgroundColor: "#fff",
+    border: "2px solid #fff",
+    backgroundColor: "#1e2a4a",
+    color: "#fff",
     marginBottom: "1rem",
+    padding: '0.25rem 0.5rem',
+    borderRadius: '1rem',
+  },
+  optionItem: {
+    "&:hover": {
+      color: "#ec5990",
+    }
+  },
+  SubmitButton: {
+    backgroundColor: "#ec5990",
+    display: "block",
+    marginBottom: "1rem",
+    "&:hover": {
+      backgroundColor: "#ec5990",
+    },
   },
 }));
 
@@ -131,15 +170,16 @@ function UserInfo() {
             className={classes.description}
           />
           <select {...register("gender")} className={classes.gender}>
-            <option value="nam">Nam</option>
-            <option value="nữ">Nữ</option>
+            <option value="nam" className={classes.optionItem}>Nam</option>
+            <option value="nữ" className={classes.optionItem}>Nữ</option>
           </select>
           <Button
             color="primary"
             variant="contained"
             onClick={handleSubmit(onSubmit)}
+            className={classes.SubmitButton}
           >
-            xac nhan
+            cập nhật
           </Button>
         </form>
       </Paper>
