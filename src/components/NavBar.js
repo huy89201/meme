@@ -141,7 +141,7 @@ function NavBar({ handleMobileCategories }) {
       <HideOnScroll>
         <AppBar className={classes.appbar}>
           <Container className={classes.container}>
-            <div className="navbar--left" className={classes.left}>
+            <div className={classes.left}>
               <div className={classes.list}>
                 <Link to="/" className={classes.listText}>
                   MEME

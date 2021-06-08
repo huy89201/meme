@@ -5,7 +5,7 @@ import {
   getPostsByUserIdAsync,
   resetCurrentPage,
 } from "../../store/postsActions";
-import { makeStyles, Grid, Typography } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 import PostItem from "../PostItem";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -14,6 +14,13 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("xs")]: {
       display: "none",
     },
+  },
+  postError: {
+    color: "#ec5990",
+  },
+  loginNotification: {
+    color: "#ec5990",
+    fontSize: "1.25rem",
   },
 }));
 
@@ -36,9 +43,9 @@ function HomePage() {
   }, []);
 
   useEffect(() => {
-    if(!currentUser.token) return;
-    
-    dispatch(getPostsByUserIdAsync(Number(currentUser.id)));
+    if (!currentUser.token) return;
+
+    dispatch(getPostsByUserIdAsync(Number(currentUser.id),currentUser.token));
   }, [currentUser.token]);
 
   const fetchMoreData = async () => {
@@ -68,18 +75,19 @@ function HomePage() {
         </Grid>
 
         <Grid item sm={5} xs={12} className={classes.displayNone}>
-          {currentUserPosts && currentUserPosts.length ? (
-            // (
-            //   currentUserPosts.map((item) => (
-            //     <PostItem key={item.PID} item={item} isShowComents={true}/>
-            //   ))
-            // )
-            <PostItem
-              key={currentUserPosts[0].PID}
-              item={currentUserPosts[0]}
-            />
+          {currentUser.token ? (
+            currentUserPosts.length ? (
+              <PostItem
+                key={currentUserPosts[0].PID}
+                item={currentUserPosts[0]}
+              />
+            ) : (
+              <p className={classes.postError}>Bạn chưa có bài viết nào</p>
+            )
           ) : (
-            <Typography>ban chua co bai viet nao</Typography>
+            <p className={classes.loginNotification}>
+              Đăng nhập để xem bài viết mới nhất của bạn
+            </p>
           )}
         </Grid>
       </Grid>

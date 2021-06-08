@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import {getUserByIdAsync} from '../store/userActions'
-import { getPostByPostIdAsync } from "../store/postsActions";
 import {
   makeStyles,
   Grow,
@@ -63,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 function PostItem({ item }) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const [expanded, setExpanded] = useState(false);
   const userId = useSelector((state) => state.posts.postDetail.post.USERID);
   const cmt = useSelector((state) => state.comments.comments);
   const userDetails = useSelector((state) => state.user.user);
@@ -71,13 +69,11 @@ function PostItem({ item }) {
 
   useEffect(() => {
     if(item.profilepicture && item.fullname) return;
+
     dispatch(getUserByIdAsync(Number(userId)));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
 
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   return (
     <Grow in={true}>

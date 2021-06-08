@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useHistory, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostByPostIdAsync } from "../../store/postsActions";
 import { makeStyles, Grid, Card, Typography } from "@material-ui/core";
@@ -25,20 +25,19 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: '1.25rem',
+    fontSize: "1.25rem",
     display: "inline-block",
     marginRight: "1rem",
     marginBottom: "1rem",
   },
   loginLink: {
-    color: "#ec5990"
-  }
+    color: "#ec5990",
+  },
 }));
 
 function PostDetailPage() {
   const classes = useStyles();
   const params = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
   const postDetail = useSelector((state) => state.posts.postDetail);
   const currentUser = useSelector((state) => state.user.currentUser);
@@ -93,7 +92,9 @@ function PostDetailPage() {
                   <Typography className={classes.error}>
                     Bạn cần đăng nhập để bình luận
                   </Typography>
-                  <Link to="/login" className={classes.loginLink}>đăng nhập</Link>
+                  <Link to="/login" className={classes.loginLink}>
+                    đăng nhập
+                  </Link>
                 </>
               )}
               <Card className={classes.Card}>

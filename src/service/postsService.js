@@ -18,11 +18,14 @@ const postsService = {
       },
     });
   },
-  getPostsByUserId(id) {
+  getPostsByUserId(id,token) {
     return api.get("/post/getListPostUserID.php", {
       params: {
         userid: id,
       },
+      headers: {
+        Authorization : `Bearer ${token}`,
+    }
     });
   },
   getPostsByQueryString(queryString) {

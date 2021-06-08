@@ -6,7 +6,6 @@ export const ACT_GET_CURRENT_USER_POSTS = "ACT_GET_CURRENT_USER_POSTS";
 export const ACT_GET_NEWS_POST_BY_QUERY_STRING = "ACT_GET_NEWS_POST_BY_QUERY";
 export const ACT_GET_NEWS_POST_BY_PID = "ACT_GET_NEWS_POST_BY_PID";
 export const ACT_RESET_CURRENT_PAGE = "ACT_RESET_CURRENT_PAGE";
-// export const ACT_ADD_NEW_POST = "ACT_ADD_NEWS_POST";
 
 export function getNewPosts({ posts, pagesize, currPage }) {
   return {
@@ -81,10 +80,10 @@ export function getPostsByUserId(posts) {
   };
 }
 
-export function getPostsByUserIdAsync(userId) {
+export function getPostsByUserIdAsync(userId,token) {
   return async (dispatch) => {
     try {
-      const res = await postsService.getPostsByUserId(userId);
+      const res = await postsService.getPostsByUserId(userId,token);
       const posts = res.data.posts;
 
       dispatch(getPostsByUserId(posts));

@@ -26,7 +26,7 @@ textarea {
   padding: 0.5rem 1rem;
 }
 
-abc  {
+.color_test {
   --color-secondary: #bf1650;
   --color-light-pink: #ec5990;
   --color-primary: #0e101c;

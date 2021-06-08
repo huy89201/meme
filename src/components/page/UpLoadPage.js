@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1rem",
     backgroundColor: "#1e2a4a",
     color: "#fff",
-    width: "100%",
     borderRadius: "1rem",
     border: "2px solid #fff",
     "&:focus": {
@@ -37,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1rem",
     backgroundColor: "#1e2a4a",
     color: "#fff",
-    width: "100%",
-    borderRadius: "1rem",
     border: "2px solid #fff",
     "&:focus": {
       outline: "none",
@@ -80,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
   fileBtn: {
     backgroundColor: "#ec5990",
-    display: "block",
+    // display: "block",
     marginBottom: "0.25rem",
     color:"#fff",
     display: "inline-block",

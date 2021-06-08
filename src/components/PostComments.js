@@ -3,12 +3,10 @@ import CommentItem from "./CommentItem";
 import { useDispatch, useSelector } from "react-redux";
 import { getCommentsByPostIdAsync } from "../store/commentsActions";
 import {
-  CardContent,
   IconButton,
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import CommentInput from "./CommentInput";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 function PostComments({ PID}) {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.user.currentUser);
   const postComments = useSelector((state) => state.comments.comments);
   const [lastComment, setLastComment] = useState(3);
   const totalComments = postComments.length;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, useHistory } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { makeStyles, Avatar, Button } from "@material-ui/core";
+import { makeStyles, Avatar } from "@material-ui/core";
 import { getUserByIdAsync } from "../../store/userActions";
 import { getPostsByUserIdAsync } from "../../store/postsActions";
 import PostItem from "../PostItem";
@@ -54,18 +54,15 @@ const useStyles = makeStyles((theme) => ({
     color: "#ec5990",
     "&:hover": {
       color: "#bf1650",
-    }
-
+    },
   },
   postList: {
     marginTop: "1rem",
-    // marginBottom: "6rem",
   },
 }));
 
 function UserPage() {
   const params = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
   const classes = useStyles();
   const userId = params.UID;
@@ -75,18 +72,17 @@ function UserPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if(!currentUser.token ) return;
+
     setIsLoading(true);
     dispatch(getUserByIdAsync(userId));
-    dispatch(getPostsByUserIdAsync(Number(userId))).then(
+    dispatch(getPostsByUserIdAsync(Number(userId),currentUser.token)).then(
       (res) => res.ok && setIsLoading(false)
     );
-  }, [userId]);
-
-  console.log(user);
+  }, [userId,currentUser.token]);
 
   const showInfo = (key) => {
     return userId === currentUser.id ? currentUser.userData[key] : user[key];
-    // return user[key];
   };
 
   return (

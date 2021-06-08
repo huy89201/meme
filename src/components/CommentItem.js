@@ -2,11 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import {
   makeStyles,
-  CardHeader,
   Avatar,
   CardContent,
   Typography,
-  Grid,
   Grow,
 } from "@material-ui/core";
 

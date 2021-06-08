@@ -32,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "0.5rem 1rem",
     backgroundColor: "#1e2a4a",
     color: "#fff",
-    width: "100%",
     borderRadius: "1rem",
     border: "2px solid #fff",
     "&:focus": {
@@ -50,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: "1rem",
     backgroundColor: "#1e2a4a",
     color: "#fff",
-    width: "100%",
     borderRadius: "1rem",
     border: "2px solid #fff",
     "&:focus": {
