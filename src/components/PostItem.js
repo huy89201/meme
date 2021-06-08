@@ -89,7 +89,7 @@ function PostItem({ item }) {
               to={ token && item.USERID  ? `/userpageId=${item.USERID || userId}` : '/login'}
               className={classes.title}
             >
-              {item.fullname || userDetails && userDetails.fullname}
+              {item.fullname || (userDetails && userDetails.fullname)}
             </Link>
           }
           // subheader={item.time_added}

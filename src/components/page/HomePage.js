@@ -8,6 +8,7 @@ import {
 import { makeStyles, Grid } from "@material-ui/core";
 import PostItem from "../PostItem";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Loading from "../Loading";
 
 const useStyles = makeStyles((theme) => ({
   displayNone: {
@@ -45,7 +46,7 @@ function HomePage() {
   useEffect(() => {
     if (!currentUser.token) return;
 
-    dispatch(getPostsByUserIdAsync(Number(currentUser.id),currentUser.token));
+    dispatch(getPostsByUserIdAsync(Number(currentUser.id), currentUser.token));
   }, [currentUser.token]);
 
   const fetchMoreData = async () => {
@@ -66,7 +67,7 @@ function HomePage() {
             dataLength={postList.length}
             next={fetchMoreData}
             hasMore={true}
-            loader={<h4>Loading...</h4>}
+            loader={<Loading />}
           >
             {postList.map((item) => (
               <PostItem key={item.PID} item={item} />

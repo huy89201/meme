@@ -7,6 +7,7 @@ import { getUserByIdAsync } from "../../store/userActions";
 import PostItem from "../PostItem";
 import CommentInput from "../CommentInput";
 import PostComments from "../PostComments";
+import Loading from "../Loading";
 
 const useStyles = makeStyles((theme) => ({
   categories: {
@@ -66,15 +67,12 @@ function PostDetailPage() {
     // eslint-disable-next-line
   }, [post.USERID]);
 
-  //bug: khi bấm vào postItem ở searchPage thì user load xong reset về  undefine
-  // bấm hồi đéo bị :D ???
-
   return (
     <div>
       <Grid container className={classes.container}>
         <Grid item xs={12}>
           {/* bug: Failed prop type: Invalid prop `children` supplied to `ForwardRef(Grid)`, expected a ReactNode. */}
-          {isLoading || isLoading2 || (
+          {(!isLoading || !isLoading2) ? (
             <div>
               <PostItem item={post} />
               <Card className={classes.categories}>
@@ -101,7 +99,8 @@ function PostDetailPage() {
                 <PostComments PID={post.PID} />
               </Card>
             </div>
-          )}
+          ): <Loading/> 
+          }
         </Grid>
       </Grid>
     </div>

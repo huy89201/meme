@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {makeStyles, Grid } from "@material-ui/core";
+import { makeStyles, Grid } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
 import { getPostsByQueryStringAsync } from "../../store/postsActions";
 import { useParams } from "react-router-dom";
 import PostItem from "../PostItem";
+import Loading from "../Loading";
+
 const useStyles = makeStyles((theme) => ({
   title: {
     color: "#fff",
-    fontSize: '1.5rem',
-    marginBottom: "1rem"
-  }
+    fontSize: "1.5rem",
+    marginBottom: "1rem",
+  },
 }));
 
 function SearchPage() {
@@ -27,18 +29,20 @@ function SearchPage() {
     // eslint-disable-next-line
   }, [params.querySting]);
 
-
   return (
     <Grid container>
       <Grid item xs={12}>
-        {isLoading || (
-          <h1 className={classes.title}>
-            co {posts.length} ket qua cho "{params.querySting}"{" "}
-          </h1>
-        )}
-        {posts.map((item) => (
-          <PostItem key={item.PID} item={item} />
-        ))}
+        {!isLoading ? (
+          <>
+            <h1 className={classes.title}>
+              co {posts.length} ket qua cho "{params.querySting}"{" "}
+            </h1>
+            {posts.map((item) => (
+              <PostItem key={item.PID} item={item} />
+            ))}
+          </>
+        ): <Loading/>
+        }
       </Grid>
     </Grid>
   );
