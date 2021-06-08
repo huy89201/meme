@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { updateInfo, getCurrentUserAsync } from "../../store/userActions";
+import Loading from "../Loading";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -172,6 +173,7 @@ function UserInfo() {
             <option value="nam" className={classes.optionItem}>Nam</option>
             <option value="nữ" className={classes.optionItem}>Nữ</option>
           </select>
+          {isLoading && <Loading />}
           <Button
             color="primary"
             variant="contained"

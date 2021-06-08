@@ -5,6 +5,7 @@ import { makeStyles, Avatar } from "@material-ui/core";
 import { getUserByIdAsync } from "../../store/userActions";
 import { getPostsByUserIdAsync } from "../../store/postsActions";
 import PostItem from "../PostItem";
+import Loading from "../Loading";
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -72,14 +73,14 @@ function UserPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if(!currentUser.token ) return;
+    if (!currentUser.token) return;
 
     setIsLoading(true);
     dispatch(getUserByIdAsync(userId));
-    dispatch(getPostsByUserIdAsync(Number(userId),currentUser.token)).then(
+    dispatch(getPostsByUserIdAsync(Number(userId), currentUser.token)).then(
       (res) => res.ok && setIsLoading(false)
     );
-  }, [userId,currentUser.token]);
+  }, [userId, currentUser.token]);
 
   const showInfo = (key) => {
     return userId === currentUser.id ? currentUser.userData[key] : user[key];
@@ -87,7 +88,7 @@ function UserPage() {
 
   return (
     <div>
-      {isLoading || (
+      {!isLoading ? (
         <div>
           <div className={classes.header}>
             <Avatar
@@ -127,6 +128,8 @@ function UserPage() {
             <PostItem key={item.PID} item={item} />
           ))}
         </div>
+      ) : (
+        <Loading />
       )}
     </div>
   );

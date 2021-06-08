@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "../../store/userActions";
+import Loading from "../Loading";
 import {
   makeStyles,
   Paper,
@@ -164,6 +165,7 @@ function UpdatePassWord() {
             <p className={classes.error}>{errors.reNewPassword?.message}</p>
           )}
           {errorAsync && <p className={classes.errorAsync}>{errorAsync}</p>}
+          {isLoading && <Loading />}
           <Button
             color="primary"
             variant="contained"

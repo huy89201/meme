@@ -5,12 +5,15 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   node: {
     display: "inline-block",
-    width: "0.75rem",
-    height: "0.75rem",
+    width: "0.5rem",
+    height: "0.5rem",
     backgroundColor: "#ec5990",
     borderRadius: "50%",
     marginLeft: "1rem",
   },
+  container: {
+    margin: "0.5rem 0"
+  }
 }));
 
 function Loading() {
@@ -45,7 +48,7 @@ function Loading() {
   };
 
   return (
-    <motion.div variants={containerVariants} initial="start" animate="end">
+    <motion.div variants={containerVariants} initial="start" animate="end" className={classes.container}>
       <motion.span
         className={classes.node}
         variants={nodeVariants}
