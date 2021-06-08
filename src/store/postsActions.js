@@ -144,10 +144,10 @@ export function resetCurrentPage() {
   };
 }
 
-export function addNewPostAsync(formData) {
+export function addNewPostAsync(formData,token){
   return async () => {
     try {
-      await postsService.addNewPost(formData);
+      await postsService.addNewPost(formData,token);
       return { ok: true };
     } catch (error) {
       return error;

@@ -65,7 +65,7 @@ function PostItem({ item }) {
   const userId = useSelector((state) => state.posts.postDetail.post.USERID);
   const cmt = useSelector((state) => state.comments.comments);
   const userDetails = useSelector((state) => state.user.user);
-  const token = useSelector((state) => state.user.currentUser.token)
+  const token = useSelector((state) => state.user.currentUser.token);
 
   useEffect(() => {
     if(item.profilepicture && item.fullname) return;
@@ -80,16 +80,16 @@ function PostItem({ item }) {
       <Card className={classes.Card}>
         <CardHeader
           avatar={
-            <Link to={ token ? `/userpageId=${item.USERID || userId}` : '/login'}>
-              <Avatar aria-label="recipe" src={item.profilepicture || userDetails.profilepicture} />
+            <Link to={ token && item.USERID ? `/userpageId=${item.USERID || userId}` : '/login'}>
+              <Avatar aria-label="recipe" src={item.profilepicture || (userDetails && userDetails.profilepicture)} />
             </Link>
           }
           title={
             <Link
-              to={ token ? `/userpageId=${item.USERID || userId}` : '/login'}
+              to={ token && item.USERID  ? `/userpageId=${item.USERID || userId}` : '/login'}
               className={classes.title}
             >
-              {item.fullname || userDetails.fullname}
+              {item.fullname || userDetails && userDetails.fullname}
             </Link>
           }
           // subheader={item.time_added}

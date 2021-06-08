@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles, Input, IconButton } from "@material-ui/core";
 import {
@@ -42,7 +42,7 @@ function CommentInput({ PID }) {
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const token = useSelector((state) => state.user.currentUser.token);
   function handleInput(evt) {
     setInputValue(evt.target.value);
   }
@@ -55,7 +55,7 @@ function CommentInput({ PID }) {
 
     setIsLoading(true);
 
-    dispatch(postNewComment(inputValue, PID)).then((res) => {
+    dispatch(postNewComment(inputValue, PID,token)).then((res) => {
       setIsLoading(false);
       if (res.ok) {
         setInputValue("");

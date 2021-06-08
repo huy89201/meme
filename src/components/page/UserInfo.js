@@ -91,6 +91,7 @@ function UserInfo() {
   const [previewImg, setPreviewImg] = useState("");
   const [avatar, setAvatar] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const token = useSelector((state) => state.user.currentUser.token);
 
   const { description, fullname, profilepicture, USERID } = currentUser;
 
@@ -131,7 +132,7 @@ function UserInfo() {
     formData.append("gender", data.gender);
     formData.append("avatar", avatar);
 
-    await dispatch(updateInfo(formData)).then((res) => {
+    await dispatch(updateInfo(formData,token)).then((res) => {
       if (res.ok) dispatch(getCurrentUserAsync(Number(USERID)));
       reset();
       setIsLoading(false);

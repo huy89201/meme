@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changePassword } from "../../store/userActions";
 import {
   makeStyles,
@@ -86,6 +86,7 @@ function UpdatePassWord() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [errorAsync, setErrorAsync] = useState("");
+  const token = useSelector((state) => state.user.currentUser.token);
   const schema = yup.object().shape({
     oldPassword: yup
       .string()
@@ -115,7 +116,7 @@ function UpdatePassWord() {
     if (isLoading) return;
     setIsLoading(true);
 
-    await dispatch(changePassword(data)).then((res) => {
+    await dispatch(changePassword(data,token)).then((res) => {
       res.ok && setErrorAsync(res.message);
 
       res.error && setErrorAsync(res.error);

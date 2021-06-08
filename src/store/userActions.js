@@ -105,16 +105,16 @@ export function loginAsync({ email, password }) {
     } catch (error) {
       return {
         ok: false,
-        error: error,
+        error: 'tài khoản hoặc mật khẩu không đúng'
       };
     }
   };
 }
 
-export function updateInfo(formData) {
+export function updateInfo(formData,token) {
   return async () => {
     try {
-      await userService.updateInfo(formData);
+      await userService.updateInfo(formData,token);
 
       return { ok: true };
     } catch (error) {
@@ -132,10 +132,10 @@ export function logOut() {
   };
 }
 
-export function changePassword({oldPassword, newPassword,reNewPassword}){
+export function changePassword({oldPassword, newPassword,reNewPassword}, token) {
   return async () => {
     try {
-      const res = await userService.changePassword({oldPassword, newPassword,reNewPassword});
+      const res = await userService.changePassword({oldPassword, newPassword,reNewPassword},token);
       return { 
         ok : true,
         message : res.data.message

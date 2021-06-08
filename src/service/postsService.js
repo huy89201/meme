@@ -18,14 +18,14 @@ const postsService = {
       },
     });
   },
-  getPostsByUserId(id,token) {
+  getPostsByUserId(id, token) {
     return api.get("/post/getListPostUserID.php", {
       params: {
         userid: id,
       },
       headers: {
-        Authorization : `Bearer ${token}`,
-    }
+        Authorization: `Bearer ${token}`,
+      },
     });
   },
   getPostsByQueryString(queryString) {
@@ -42,8 +42,12 @@ const postsService = {
       },
     });
   },
-  addNewPost(formData) {
-    return api.post("/post/addNew.php", formData);
+  addNewPost(formData,token) {
+    return api.post("/post/addNew.php", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   },
   // edditPost({ obj_image, url_image, post_content, category } = {}) {
   //   return api.post("/post/addNew.php", {

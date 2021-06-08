@@ -88,6 +88,7 @@ function LoginPage() {
   const history = useHistory();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const currentUser = useSelector((state) => state.user.currentUser);
   const { token} = currentUser;
   const schema = yup.object().shape({
@@ -120,9 +121,15 @@ function LoginPage() {
     await dispatch(loginAsync(data)).then((res) => {
       if (res.ok) {
         history.push("./");
+      } 
+
+      if (!res.ok) {
+        setError(res.error)
       }
+      
     });
     reset();
+    setTimeout(() => setError(''),3000);
     setIsLoading(false);
   };
 
@@ -150,7 +157,7 @@ function LoginPage() {
         {errors.password?.message && (
           <p className={classes.error}>{errors.password?.message}</p>
         )}
-
+        {error && <p className={classes.error}>{error}</p>}
         <Button
           color="primary"
           variant="contained"

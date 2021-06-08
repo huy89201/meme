@@ -22,8 +22,12 @@ const userService = {
       repassword: repassword,
     });
   },
-  updateInfo(formData) {
-    return api.post("/member/update.php", formData);
+  updateInfo(formData,token) {
+    return api.post("/member/update.php", formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
   },
   getMemberList({ pagesize = 4, currpage = 1 } = {}) {
     return api.get("/member/getListPaging.php", {
@@ -33,13 +37,17 @@ const userService = {
       },
     });
   },
-  changePassword({oldPassword, newPassword,reNewPassword}={}) {
+  changePassword({ oldPassword, newPassword, reNewPassword } = {}, token) {
     return api.post("/member/password.php", {
       oldPassword: oldPassword,
       newPassword: newPassword,
       reNewPassword: reNewPassword,
-    })
-  }
+    }, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  },
 };
 
 export default userService;

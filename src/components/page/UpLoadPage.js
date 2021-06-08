@@ -77,7 +77,6 @@ const useStyles = makeStyles((theme) => ({
   },
   fileBtn: {
     backgroundColor: "#ec5990",
-    // display: "block",
     marginBottom: "0.25rem",
     color:"#fff",
     display: "inline-block",
@@ -94,6 +93,7 @@ function UpLoadPage() {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [previewImg, setPreviewImg] = useState("");
+  const token = useSelector((state) => state.user.currentUser.token);
   const [postData, setPostData] = useState({
     obj_image: {},
     url_image: "",
@@ -161,7 +161,7 @@ function UpLoadPage() {
 
     setIsLoading(true);
 
-    await dispatch(addNewPostAsync(formData)).then((res) => {
+    await dispatch(addNewPostAsync(formData,token)).then((res) => {
       if (res.ok) {
         setPostData({
           obj_image: {},

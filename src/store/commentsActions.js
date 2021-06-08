@@ -23,10 +23,10 @@ export function getCommentsByPostIdAsync(postId){
     }
 }
 
-export function postNewComment(comment,postId){
+export function postNewComment(comment,postId,token){
     return async (dispatch) => {
         try {
-            await commentsService.postNewComment(comment,postId);
+            await commentsService.postNewComment(comment,postId,token);
 
             return {
                 ok: true,
