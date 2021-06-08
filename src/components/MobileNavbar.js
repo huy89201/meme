@@ -5,7 +5,7 @@ import HomeIcon from "@material-ui/icons/Home";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { AppBar, Toolbar, IconButton, makeStyles } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
-
+import {useSelector} from 'react-redux'
 const useStyles = makeStyles((theme) => ({
   appBar: {
     top: "auto",
@@ -29,8 +29,9 @@ const useStyles = makeStyles((theme) => ({
 
 function MobileNavbar({ handleMobileCategories, handleSetting }) {
   const classes = useStyles();
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const {id} = currentUser;
 
-  const currentUserId = localStorage.getItem("id");
 
   return (
     <div className="mobile--navbar">
@@ -46,7 +47,7 @@ function MobileNavbar({ handleMobileCategories, handleSetting }) {
           </IconButton>
           <IconButton>
             <Link
-              to={currentUserId ? `/userpageId=${currentUserId}` : "/login"}
+              to={id ? `/userpageId=${id}` : "/login"}
             >
               <AccountCircleIcon className={classes.Icon} />
             </Link>
