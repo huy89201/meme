@@ -70,22 +70,14 @@ function PostItem({ item }) {
   const token = useSelector((state) => state.user.currentUser.token)
 
   useEffect(() => {
-    dispatch(getPostByPostIdAsync(item.PID));
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
+    if(item.profilepicture && item.fullname) return;
     dispatch(getUserByIdAsync(Number(userId)));
   },[])
 
-  
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
-
-  // console.log(item.USERID, userId); 
 
   return (
     <Grow in={true}>

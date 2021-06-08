@@ -48,8 +48,14 @@ const useStyles = makeStyles((theme) => ({
       display: "none",
     },
   },
-  button: {
-    marginTop: "0.5rem",
+  userinfo: {
+    marginTop: "2rem",
+    fontSize: "1.25rem",
+    color: "#ec5990",
+    "&:hover": {
+      color: "#bf1650",
+    }
+
   },
   postList: {
     marginTop: "1rem",
@@ -76,10 +82,9 @@ function UserPage() {
     );
   }, [userId]);
 
-  console.log(user)
+  console.log(user);
 
   const showInfo = (key) => {
-
     return userId === currentUser.id ? currentUser.userData[key] : user[key];
     // return user[key];
   };
@@ -112,13 +117,12 @@ function UserPage() {
                 </div>
               </div>
               {userId === currentUser.id && (
-                <Button
-                  color="primary"
-                  variant="contained"
-                  className={classes.button}
+                <Link
+                  to={`/user-info-id=${userId}`}
+                  className={classes.userinfo}
                 >
-                  <Link to={`/user-info-id=${userId}`}>xem thông tin</Link>
-                </Button>
+                  xem thông tin...
+                </Link>
               )}
             </div>
           </div>
